@@ -1,0 +1,290 @@
+createdAt: "2019-04-30T20:50:57.680Z"
+updatedAt: "2019-04-30T20:51:00.262Z"
+type: "MARKDOWN_NOTE"
+folder: "07cf57a1f5f4b487f234"
+title: "Classes and Objects I"
+tags: []
+content: '''
+  #### Classes and Objects I
+  ###### States vs Behaviors
+  States track attributes of an object.
+  Behaviors are what objects are capable of doing.
+  
+  Example:
+  
+  `Stan: Dog, GSD, 90 pounds.`
+  `Behaviors: Bark, Bite, Cuddle`
+  `Murphy: Dog, Terrier, 10 pounds.`
+  `Behaviors: Bark, Bite, Cuddle`
+  
+  The name lines include the attributes of the object, while the behaviors are the (methods) things that the object is capable of doing.
+  
+  All objects with the same class have the same behaviors once initialized with that class.
+  
+  **Instance** variables are used to track unique information about an object, namely, its attributes (**states**).
+  
+  **Instance methods** expose behavior for objects.
+  
+  ``````
+  class GoodDog
+    def initialize # This is not a module. This could be any name.
+      puts 'This object was initialized!'
+    end
+  end
+  
+  boy = GoodDog.new
+  => 'This object was initialized!'
+  ``````
+  In this example, the `initialize` method is invoked every time that a new object with the class `GoodDog` is initialized with `new`.
+  
+  The methods defined inside of a class appear to be invoked every time that a new object under that class is created.
+  
+  The `initialize` method is known as a **constructor**. This basically means that it is triggered each time a new object is created.
+  
+  #### Instance Variables
+  It's easiest to demonstrate this type of variable with an example.
+  ``````
+  class GoodDog
+    def initialize(name)
+      @name = name
+    end
+  end
+  
+  boy = GoodDog.new('Fido')
+  ``````
+  A variable with `@` in front of it is an instance variable. This is used to tie data to objects. So long as the object instance exists, the data will be tied to the object.
+  
+  Here, we're tying the value of parameter `name` to the instance variable `@name`.
+  
+  Instance variables are used to keep track of the object's state, or attributes that are unique to each and every object.
+  
+  #### Instance Methods
+  Instance methods are unique to the class.
+  ``````
+  class GoodDog
+    def initialize(name)
+      @name = name
+    end
+  
+    def bark
+      puts "#{@name} barks!"
+    end
+  end
+  
+  boy = GoodDog.new('Fido')
+  tito = GoodDog.new('Tito')
+  tito.bark => Tito barks!
+  boy.bark => Fido barks!
+  ``````
+  The instance method `bark` is invoked when specified in the code. It is just like a regular method.
+  
+  Inside `bark`, we use the `@name` instance variable to access the unique state attribute for any object who invokes the `bark` method.
+  
+  #### Accessor Methods
+  There are `getter` methods and `setter` methods.
+  
+  `Getter` methods access the unique data of an object.
+  ``````
+  class GoodDog
+    def initialize(name)
+      @name = name
+    end
+  
+    def bark
+      puts "#{@name} barks!"
+    end
+  
+    def get_name
+      puts @name
+    end
+  end
+  
+  boy = GoodDog.new('Fido')
+  tito = GoodDog.new('Tito')
+  tito.get_name
+  ``````
+  `get_name` is getting the `@name` variable for us. It does not modify it; it simply outputs it for us.
+  
+  A **setter** method changes the value of an instance variable.
+  
+  This type of method takes the form of:
+  
+  `change_name=(name)`
+  
+  However, when calling the instance method in the actuaal program, it can be called with:
+  
+  `change_name = 'Fido'`
+  
+  This is a more natural syntactical way to invoke the method, so Ruby allows it.
+  
+  ``````
+  class GoodDog
+    def initialize(name)
+      @name = name
+    end
+  
+    def bark
+      puts "#{@name} barks!"
+    end
+  
+    def name
+      puts @name
+    end
+  
+    def name=(n)
+      @name = n # This isn't name to prevent the method name being invoked.
+    end
+  end
+  
+  boy = GoodDog.new('Fido')
+  tito = GoodDog.new('Tito')
+  
+  boy.name => 'Fido'
+  boy.name = 'Poe'
+  boy.name => 'Poe'
+  ``````
+  The methods have been renamed to match the exact instance variable that they are either **getting or setting**. This is proper Ruby syntax so get used to it.
+  
+  #### Refactoring the Accessor Methods
+  You may have noticed that having all of these getter and setter methods takes up a lot of space in the class definition. Fear not! Ruby has a solution.
+  
+  Meet: `attr_accessor`, a handy method which takes a symbol as an argument and creates a getter and setter method for that symbol.
+  
+  ``````
+  class GoodDog
+    attr_accessor :name
+  
+    def initialize(name)
+      @name = name
+    end
+  
+    def bark
+      puts "#{@name} barks!"
+    end
+  
+  end
+  
+  boy = GoodDog.new('Fido')
+  tito = GoodDog.new('Tito')
+  
+  p boy.name
+  boy.name = 'Poe'
+  p boy.name
+  ``````
+  If you just want the getter, use `attr_reader`.
+  
+  If you just want the setter, use `attr_writer`.
+  
+  If you're tracking a few instance variables, use several symbols in your method definition.
+  
+  ``````
+  attr_accessor :name, :height, :weight
+  ``````
+  #### Getting Comfortable with Accessor
+  ``````
+  class GoodDog
+    attr_accessor :name
+  
+    def initialize(name)
+      @name = name
+    end
+  
+    def bark
+      puts "#{name} barks!"
+    end
+  
+  end
+  ``````
+  The change in the puts statement on line 186 should alarm you. 
+  
+  Oh, no! We didn't include the `@` before the `name`!
+  
+  Wrong-- we meant to do that. It's better to invoke the **getter** method, rather, than access the instance variable. By directly calling the instance variable, you may leave data vulnerable to manipulation or put it in the wrong hands.
+  
+  Imagine you have a bank account and you are pressed to enter your email and password to log in, even though you can't remember it. For your own protection, you'd rather the website not display the email address you have on record when you ask for help signing in. 
+  
+  **Getter** methods should encrypt information. For instance (no pun intended), when one uses a credit card online, only the last 4 digits are shown. That's on purpose for your protection. If we accessed the instance variable, `cc_num`, it would print out the whole credit card number! Not good!
+  
+  ``````
+  class GoodDog
+    attr_accessor :name, :height, :weight
+  
+    def initialize(n, h, w)
+      @name = n
+      @height = h 
+      @weight = w
+    end
+  
+    def bark
+      puts "#{name} barks!"
+    end
+  
+    def info
+      "#{name} weighs #{weight} pounds and is #{height} feet tall."
+    end
+  end
+  
+  boy = GoodDog.new('Fido', 34, 35)
+  
+  boy.weight = 36
+  p boy.info
+  ``````
+  What will the output be?
+  
+  ``````
+  def change_info(n, h, w)
+    name = n
+    height = h
+    weight = w
+  end
+  ``````
+  Here, the values assigned to the instance variables will not change. Rather, three new local variables will be initialized. That's not what we want!
+  
+  We need to use `self` next to our variables in order to change the original values.
+  
+  ``````
+  self.name = n
+  ``````
+  The `self` method tells Ruby that we are calling a setter method, not initializing a new variable. So, let's rewrite that code:
+  
+  ``````
+  class GoodDog
+    attr_accessor :name, :height, :weight
+  
+    def initialize(n, h, w)
+      @name = n
+      @height = h 
+      @weight = w
+    end
+  
+    def bark
+      puts "#{name} barks!"
+    end
+  
+    def info
+      "#{name} weighs #{weight} pounds and is #{height} feet tall."
+    end
+  
+    def change_info(n, h, w)
+      self.name = n 
+      self.height = h 
+      self.weight = w 
+    end
+  end
+  
+  boy = GoodDog.new('Fido', 34, 35)
+  
+  boy.weight = 36
+  p boy.info
+  boy.change_info('Popo', 654, 7654)
+  p boy.info
+  ``````
+  It works!
+  
+  
+  
+  
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false

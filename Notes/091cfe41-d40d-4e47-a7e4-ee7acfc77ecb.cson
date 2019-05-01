@@ -1,0 +1,257 @@
+createdAt: "2019-05-01T16:27:14.521Z"
+updatedAt: "2019-05-01T17:27:37.894Z"
+type: "MARKDOWN_NOTE"
+folder: "18d218dbb9db582ec753"
+title: "Inheritance"
+tags: []
+content: '''
+  #### Inheritance
+  Inheritance is when a class inherits behaviors from a superclass.
+  
+  The **subclass** inherits behavior from a **superclass**.
+  
+  This is a good way to extract common behaviors from classes that share the behaviors into one **superclass**. This keeps logic all in one place.
+  
+  #### Class Inheritance
+  Let's break down how to give subclasses behaviors from a superclass.
+  ``````
+  class Animal
+    def speak
+      puts 'Hello!'
+    end
+  end
+  
+  class GoodDog < Animal
+    DOG_YEARS = 7
+  
+    attr_accessor :name, :age
+  
+    @@number_of_dogs = 0
+  
+    def initialize(n, a)
+      self.name = n 
+      self.age = a * DOG_YEARS
+      @@number_of_dogs += 1
+    end
+  
+    def self.number_of_dogs
+      @@number_of_dogs
+    end
+  
+    def what_is_self
+      self
+    end
+  
+  end
+  ``````
+  In this example, `Animal` is the superclass and `GoodDog` is the subclass. This is because `GoodDog` inherits the behaviors of `Animal`.
+  
+  This is done through the use of the `<` method on line 7. 
+  
+  An important thing to remember is how the chain of scope looks up methods. The subclass will first check the subclass for the invoked method; so, if there is already a `speak` method inside of `GoodDog`, it will use that method instead of the method inherited from `Animal`.
+  
+  Follow the principle of **DRY**: Don't repeat yourself. When you can extract logic that will be repeated within the code, please do it and save all of us the headache of reading the same method 400 times.
+  
+  #### super
+  You can invoke **super** inside of your instance method to lookup the method chain to the **superclass** method with the same name.
+  ``````
+  class Animal
+    def speak
+      'Hello!'
+    end
+  end
+  
+  class GoodDog < Animal
+    DOG_YEARS = 7
+  
+    attr_accessor :name, :age
+  
+    @@number_of_dogs = 0
+  
+    def initialize(n, a)
+      self.name = n 
+      self.age = a * DOG_YEARS
+      @@number_of_dogs += 1
+    end
+  
+    def self.number_of_dogs
+      @@number_of_dogs
+    end
+  
+    def what_is_self
+      self
+    end
+  
+    def speak
+      super + " from GoodDog class"
+    end
+  end
+  ``````
+  Here, on line 29, we call `super` which searches the method lookup chain for a method named `speak` in the **superclass**. It finds it, invokes that method, and then proceeds to print out the rest of the string from the instance method `speak`.
+  
+  We can also use `super` when initializing instance variables.
+  ``````
+  class Animal
+    attr_accessor :name
+  
+    def speak
+      'Hello!'
+    end
+  
+    def initialize(name)
+      @name = name
+    end
+  end
+  
+  class GoodDog < Animal
+    DOG_YEARS = 7
+  
+    attr_accessor :age
+  
+    def initialize(n, a)
+      super(n)
+      self.age = a * DOG_YEARS
+    end
+  
+    def speak
+      super + " from GoodDog class"
+    end
+  
+    def self
+      p "#{name}, #{age}"
+    end
+  end
+  
+  lola = GoodDog.new('Lola', 3)
+  jack = GoodDog.new('Jack', 2)
+  lola.self => Lola, 21
+  lola.name = 'Dirt'
+  lola.self => Dirt, 21
+  ``````
+  On line 105, we invoke `super(n)` and initialize the `@name` variable by using the initialize method in the superclass `Animal`. We can even still use the accessor method for writing from the superclass, as seen on line 121.
+  
+  #### Mixing in Modules
+  ``````
+  module Flying
+    def fly
+      'Flying baby!'
+    end
+  end
+  
+  class Animal; end
+  
+  class Bird < Animal
+    include Flying
+  end
+  
+  class Mammal < Animal
+  
+  end
+  
+  vulture = Bird.new
+  p vulture.fly
+  pup = Mammal.new
+  p pup.fly
+  ``````
+  Mixing in modules makes our subclasses more unique and also be able to share and exclude common behaviors. All of this is done to save space and respect the **DRY** principle.
+  
+  In this example, we include the `Flying` module on `Bird` subclass of superclass `Animal` but not the `Mammal` subclass. This is because most birds are able to fly and most mammals are unable to. There are always exceptions but for the most part its true.
+  
+  #### Method vs Inheritance
+  How do you know when to use inheritance or mix in a module?
+  1. If it's a "is a" relationship, use inheritance from a superclass.
+  2. If it's a "has a" relationship, use modules. Think of swimming for a dog. That's unique and the dog "has" the ability to do it.
+  
+  #### Namespacing
+  **Namespacing** is when you use a module to group sub-classes under it for better organization and common methods, etc. 
+  ``````
+  module Mammal
+    class Dog
+      def speak(sound)
+        p "#{sound}"
+      end
+    end
+  
+    class Cat
+      def speak(sound)
+        p "#{sound}"
+      end
+    end
+  end
+  
+  lola = Mammal::Dog.new
+  jaeda = Mammal::Cat.new
+  lola.speak('ruff')
+  ``````
+  `Dog` and `Cat` are subclasses of the module `Mammal`. We instantiate objects `lola` and `jaeda` on lines 175-176. You have to use the module name followed by `::` and then the class name, then `.new`
+  
+  You can also use modules as a container for methods, such as module methods.
+  ``````
+  module Mammal
+  
+    def self.some_crazy_method(n)
+      n ** 2
+    end
+  end
+  
+  value = Mammal.some_crazy_method(2)
+  # or
+  value = Mammal::some_crazy_method(2)
+  ``````
+  The two ways of invoking the `self` defined method are detailed after value is assigned on lines 190 and 192.
+  
+  #### Private, Public, Protected
+  ###### or, How I ended my Summer Vacation
+  Just kidding. Private methods are methods that are unavailable to the rest of the program below where `private` is written. Sometimes, you don't need certain methods or variables available outside of a certain area.
+  
+  Public methods, on the other hand, are available wherever anyone knows the class or object name.
+  ``````
+  class Cat
+      def speak(sound)
+        p "#{sound}"
+      end
+  
+      private
+  
+      def human_years
+        4 * 12
+      end
+    end
+    
+  jaeda.human_years => human_years is private ERROR
+  ``````
+  It's not able to be invoked because it is private!
+  
+  Protected methods are the middle ground between public and private.
+  
+  Protected methods act like private methods when they are called from outside the class. Protected methods are like public methods when they are called from within the class.
+  ``````
+    class Cat
+      def speak(sound)
+        p "#{sound}"
+      end
+  
+      def public
+        'Testing!' + "#{human_years}"
+      end
+  
+      protected
+  
+      def human_years
+        4 * 12
+      end
+    end
+  end
+  
+  lola = Mammal::Dog.new
+  jaeda = Mammal::Cat.new
+  
+  p jaeda.public => Testing!48
+  p jaeda.human_years => error! protected method
+  ``````
+  Calling the protected method from outside a class method did not work, but calling it from within did.
+  
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false

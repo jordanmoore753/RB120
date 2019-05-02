@@ -105,3 +105,19 @@ end
 joe = Student.new('Joe', 65)
 bob = Student.new('Bob', 62)
 joe.better_grade_than?(bob)
+
+class SecretThing
+
+
+  def share_secret
+    "The secret is #{self.secret}"
+  end
+
+  protected
+
+  def secret
+    "shhh.. it's a secret!!"
+  end
+end
+
+puts SecretThing.new.share_secret # => "The secret is shhh.. it's a secret!!"

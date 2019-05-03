@@ -40,3 +40,4 @@ boy.weight = 36
 p boy.info
 boy.change_info('Popo', 654, 7654)
 p boy.info
+

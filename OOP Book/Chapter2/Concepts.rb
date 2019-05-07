@@ -41,3 +41,25 @@ p boy.info
 boy.change_info('Popo', 654, 7654)
 p boy.info
 
+class Author
+
+  def initialize
+
+  end
+
+  def name
+    puts "Self inside class instance: #{self}."
+    puts "Self.class inside class instance: #{self.class}"
+  end
+end
+
+class Human < Author
+
+end
+
+yea = Author.new
+yea.name
+
+arr1 = [1]
+arr2 = [1]
+p arr1 == arr2

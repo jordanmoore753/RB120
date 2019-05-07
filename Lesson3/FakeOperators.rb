@@ -1,43 +1,71 @@
-class Team 
-  attr_accessor :name, :members
+# class Team 
+#   attr_accessor :name, :members
 
-  def initialize(n)
-    @name = n
-    @members = []
-  end
+#   def initialize(n)
+#     @name = n
+#     @members = []
+#   end
 
-  def <<(person)
-    members.push(person)
-  end
+#   def <<(person)
+#     members.push(person)
+#   end
 
-  def +(other_team)
-    temp_team = Team.new('Temporary Titans')
-    temp_team.members = members + other_team.members
-    temp_team
+#   def +(other_team)
+#     temp_team = Team.new('Temporary Titans')
+#     temp_team.members = members + other_team.members
+#     temp_team
+#   end
+# end
+
+# class Person
+#   attr_accessor :name, :age
+
+#   def initialize(n, a)
+#     @name = n
+#     @age = a 
+#   end
+
+#   def >(other)
+#     age > other.age
+#   end
+# end
+
+# bob = Person.new('Bob', 49)
+# kim = Person.new('Kim', 34)
+
+# cowboys = Team.new('Cowboys')
+# titans = Team.new('Titans')
+
+# cowboys <<(kim)
+# titans << bob
+
+# ultimate = cowboys + titans 
+# p ultimate
+
+module Describable
+  def describe_shape
+    "I am a #{self.class} and have #{self.class::SIDES} sides."
   end
 end
 
-class Person
-  attr_accessor :name, :age
+class Shape
+  include Describable
 
-  def initialize(n, a)
-    @name = n
-    @age = a 
-  end
-
-  def >(other)
-    age > other.age
+  def self.sides
+    self::SIDES
   end
 end
 
-bob = Person.new('Bob', 49)
-kim = Person.new('Kim', 34)
+class Quadrilateral < Shape
+  SIDES = 4
 
-cowboys = Team.new('Cowboys')
-titans = Team.new('Titans')
+  def sides
+    SIDES
+  end
+end
 
-cowboys <<(kim)
-titans << bob
+class Square < Quadrilateral; end
 
-ultimate = cowboys + titans 
-p ultimate
+p Square.sides # => 4
+p Square.new.sides # => 4
+p Square.new.describe_shape # => "I am a Square and have 4 sides."

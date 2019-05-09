@@ -409,16 +409,8 @@ class TTTGame
     puts ''
   end
 
-  def human_went_first?
-    FIRST_TO_MOVE == HUMAN_MARK
-  end
-
   def human_turn?
     @curr_marker == HUMAN_MARK
-  end
-
-  def computer_turn?
-    @curr_marker == COMP_MARK
   end
 
   def end_current_game?

@@ -1,0 +1,19 @@
+Tic Tac Toe
+-----------
+Description: TTT is a two-player game that is played on a 3x3 grid. Each player 
+takes a turn to mark one square on the grid with their marking. The options
+are an 'X' or an 'O'. The first player to mark 3 squares in a row, either
+diagonally, vertically, or horizontally wins.
+
+Nouns/Verbs
+-----------
+Square, Turns, Player, Row, Grid, Board
+Win, Mark, Play
+
+Organized
+--------
+Board
+Square
+Player
+- Mark
+- Play

@@ -1,0 +1,44 @@
+21 is a two-player game that uses a 52-card deck. The player plays
+against the dealer. The player goes first and draws cards until
+they are close to 21 or are over 21. If the player goes over 21, they 
+bust and automatically lose the round. If the player stays before 21, then 
+the dealer draws his cards. He can bust or stay.
+
+Nouns
+-----
+Deck
+Card
+Dealer
+Player
+Dealer
+21
+
+Verbs
+----
+Draw
+Stay
+Bust
+Hit
+
+Player
+-hit
+-stay
+-busted?
+-total
+
+Dealer
+-all the same as player
+
+Participant Module
+- hit
+-stay
+-busteD?
+-total
+
+Deck
+-deal ??
+
+Card
+
+Game
+-start

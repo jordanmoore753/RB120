@@ -1,4 +1,4 @@
-module Participant
+class Participant
   attr_reader :hand_value, :hand
   attr_accessor :wins, :name
 
@@ -56,19 +56,13 @@ module Participant
     hand.map(&:value)
   end
 
-  def difference_from_win_value
-    @hand_value = TwentyOne::WIN_VALUE - @hand_value
-  end
-
   def reset_hand_and_value
     @hand = []
     @hand_value = 0
   end
 end
 
-class Player
-  include Participant
-
+class Player < Participant
   def initialize
     @name = 'Jondan'
     @hand = []
@@ -77,9 +71,7 @@ class Player
   end
 end
 
-class Dealer
-  include Participant
-
+class Dealer < Participant
   def initialize
     @name = 'Dealer'
     @hand_value = 0
@@ -191,13 +183,31 @@ class TwentyOne
     puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     display_wins
     puts ''
-    display_current_cards
+    display_cards_and_val
     puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
   end
 
-  def display_current_cards
-    puts "#{player.name}'s cards: #{player.card_values}."
+  def end_display_wins_and_cards
+    clear
+    puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    display_wins
+    puts ''
+    display_all_cards_and_val
+    puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+  end
+
+  def display_card_values(participant)
+    "#{participant.card_values} => #{participant.hand_value}."
+  end
+
+  def display_cards_and_val
+    puts "#{player.name}'s cards: #{display_card_values(player)}"
     puts "#{dealer.name}'s first card is: #{dealer.first_card}."
+  end
+
+  def display_all_cards_and_val
+    puts "#{player.name}'s cards: #{display_card_values(player)}"
+    puts "#{dealer.name}'s cards: #{display_card_values(dealer)}"
   end
 
   def display_wins
@@ -217,7 +227,7 @@ class TwentyOne
   end
 
   def display_results
-    display_wins_and_cards
+    end_display_wins_and_cards
     if either_busted?
       display_busted
     elsif tie?
@@ -248,6 +258,8 @@ class TwentyOne
       player.hit(deck)
       dealer.hit(deck)
     end
+
+    player.total
   end
 
   def clear
@@ -277,10 +289,16 @@ class TwentyOne
     loop do
       puts "What is your name, human?"
       n = gets.chomp.to_s
-      break unless n.empty? || n == ' '
+      break unless n.empty? || n == ' ' || not_valid_name?(n)
       puts 'Sorry, you must enter a value.'
     end
     player.name = n
+  end
+
+  def not_valid_name?(name)
+    invalid = [' ', '"', "'"]
+    name.split('').each { |char| return true if invalid.include?(char) }
+    false
   end
 
   def player_turn
@@ -300,19 +318,17 @@ class TwentyOne
   end
 
   def compute_winner
-    display_current_cards
+    display_cards_and_val
     compute_final_hand_value if neither_busted?
   end
 
   def compute_final_hand_value
     player.pre_results_total
     dealer.pre_results_total
-    player.difference_from_win_value
-    dealer.difference_from_win_value
   end
 
   def player_won?
-    player.hand_value < dealer.hand_value
+    player.hand_value > dealer.hand_value
   end
 
   def tie?

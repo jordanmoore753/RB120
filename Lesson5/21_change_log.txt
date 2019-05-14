@@ -1,0 +1,7 @@
+21 Change Log
+-------------
+1. No empty spaces as name - DONE
+2. Show value of hand to the right of cards. - DONE
+3. When game over, update the dealer's hand to show value. - DONE
+4. Make participant a superclass to player and computer. - DONE
+6. Cards should be the instance variable name for "deck" in 21. - DONE

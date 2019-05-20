@@ -1,0 +1,474 @@
+createdAt: "2019-04-10T15:58:58.911Z"
+updatedAt: "2019-04-17T16:43:08.047Z"
+type: "MARKDOWN_NOTE"
+folder: "2683d546cd62f7120c98"
+title: "Study for RB109"
+tags: [
+  "RB109"
+]
+content: '''
+  Study for RB109
+  
+  num = 5
+  
+  if (num < 10)
+    puts "small number"
+  else
+    puts "large number"
+  end
+  
+  Line 1, we initialize the local variable `num` with the value 5. On line 3 there is an `if statement` with the `test expression` of `num` is less than 10. If the conditional evaluates to true, then we invoke the puts method with the argument `small number` which prints the string in the argument. If the conditional evaluates to false, we invoke the puts method with the argument `large number`. The conditional evaluates to true since `num` is truthy and anything that is truthy will evaluate to `true`. The return value is `nil` but the output is `small number`.
+  
+  [1, 2, 3].map do |num|
+    if num > 1
+      puts num
+    else
+      num
+    end
+  end
+  
+  This program's output will be:
+  
+  2
+  3
+  
+  and the return value will be an `array` with elements: `[1, nil, nil]`
+  
+  The `map` method is an example of `transformation`, wherein you modify every element in a collection. In this example, we invoke the method `map` on the `array` [1,2,3] and pass in the parameter `num` into the `do...end` block. Inside the `do...end` block, we have a `test expression` of `num > 1`. If the `test expression` evaluates to true for the given `num` then on line 13 we invoke the method `puts` with the argument `num` which prints the value of `num`. The reason there are two `nils` in the return array is that `puts` always has a return value of nil and that is the last value in the conditional, so that is what is returned to the return array.
+  
+  [2, 5, 3, 4, 1].sort do |a, b|
+    b <=> a
+  end
+  
+  This example demonstrates how a collection can be sorted. The `sort` method takes a collection and selects and sorts elements based on a block. 
+  
+  In this example, the `sort` method is invoked on the array `[2,5,3,4,1]`. We define a `do..end` block alongside the `sort` method and pass in two parameters to it, `a and b`. Inside the `do..end` block we are declaring that `b <=> a`, which means that the larger of the two given elements will be sorted first, which is from left to right respectively. In this case, the elements of `array` will be sorted in descending order from largest to smallest: `5, 4, 3, 2, 1`. The return value of the `do..end` block will be `[5, 4, 3, 2, 1]` but not the collection will not be mutated.
+  
+  def select_vowels(str)
+    selected_chars = ''
+    counter = 0
+  
+    loop do
+      current_char = str[counter]
+  
+      if 'aeiouAEIOU'.include?(current_char)
+        selected_chars << current_char
+      end
+  
+      counter += 1
+      break if counter == str.size
+    end
+  
+    selected_chars
+  end
+  
+  This example demonstrates `selection`. On line 36 we define a method called `select_vowels` and pass in the parameter `str`. Inside the method's block, we're first initializing two local variables, `selected_chars and counter`. `counter` will be used to keep track of how many times we've looped, and `selected_chars` is going to keep track of which characters in the `str` parameter meet a certain selection criteria. On line 40 we invoke the `loop` method and define a `do..end` block alongside it. On line 41, we initialize `current_char`as pointing to the same object as `str[counter]` so the value of the `str` variable at `index counter`. The return value of this method invocation will be dependent on how many characters meet the `test expression` requirement of being `aeiouAEIOU`, so any of the characters in the aforementioned REGEX expression. If the `current_char` argument evaluates to true in the `include` method invocation, then `current_char` will be appended to `selected_chars`.
+  
+  On line 40, we invoke the `loop` method and pass in a `do..end` block to it.
+  
+  Every time the block executes, a consecutive character of `str` will be assigned to `current_char`. 
+  
+  On linne 43, a conditional is defined with the test expression: `'aeiouAEIOU'.include?(current_char)` which means that the `include?` method is called on the string object `aeiouAEIOU` and the argument `current_char` is passed into the `include?` method. If the `test expression` evaluates to `true` then `current_char` will be appended to `selected_chars`.
+  
+  On line 47 `counter` is incremented and re-assigned. 
+  On line 48 the `guard clause` causes the flow to break out of the loop once `counter` is equal to the value of `str.size`, the amount of elements within `str`.
+  
+  arr1 = ["a", "b", "c"]
+  arr2 = arr1.dup
+  arr2.map! do |char|
+    char.upcase
+  end
+  
+  arr1
+  arr2
+  
+  This example demonstrates the concept of mutating the caller. 
+  On line 65, arr1 is initalized as `['a', b''c]`
+  On line 66, `arr2` is intialized as pointing to the same `array`
+  object as `arr1` but with all duplicate elements removed, as per the invocation of method `dup` on `arr1`.
+  Next on line 67, the `map!` method is called on `arr2`, which will mutate the caller, `arr2`, based on the return value of the `do..end` block passed into the `map!` method invocation. Also, the parameter `char` is passed into the `do..end` block. 
+  For each `char` in `arr2`, the `char` element will be upcased. The return value of each element is the uppercase version of the element. In this case, the return value of `map!` is `[A, B, C]`, and that is the array object `arr2` is assigned to point at.
+  
+  arr1 = ["a", "b", "c"].freeze
+  arr2 = arr1.dup
+  arr2 << "d"
+  
+  arr2
+  arr1
+  
+  This example demonstrates the `freeze` method and how it prevents the modification of an object. On line 81, `arr1` is initialized with the array object `['a', 'b', 'c']` and that object is passed into the method invocation `freeze`, which prevents the object from being modified or mutated.
+  On line 82, `arr2` is initialized as the return value of `arr1` when passed into the `dup` method invocation. This strips a variable of any duplicate elements. 
+  At this point, `arr1` and `arr2` are pointing at different objects, so mutating one will not mutate the other.
+  On line 83 the string object `d` is appended to `arr2` which mutates the `arr2` object.
+  `arr2` is pointing to the `array object` `['a', 'b', 'c', 'd']` while `arr1` is still pointing at the same array object `['a', 'b', 'c']`. 
+  
+  def some_method(a)
+    puts a
+  end
+  
+  some_method(5)
+  
+  This example demonstrates how local variables can be accessed within the self-contained scope of a method. By passing in a local variable as an argument to a method, one can access the object pointed to by the local variable and even mutate the caller. In this example, line 94 defines the method `some_method` and passes in a parameter named `a`. Inside the block of the `some_method`, the puts method is invoked on the parameter `a`, printing the object that `a` points to. 
+  
+  On line 98, `some_method` is invoked and `5` is passed in as the argument. This results in the output `5.`
+  
+  [[8, 13, 27], ['apple', 'banana', 'cantaloupe']].map do |arr|
+    arr.select do |item|
+      if item.to_s.to_i == item    # if it's an integer
+        item > 13
+      else
+        item.size < 6
+      end
+    end
+  end
+  
+  This example demonstrates selection and transformation. On line 104, the map method is invoked on the array `[[8, 13, 27], ['apple', 'banana', 'cantaloupe']]`. Passed into the method invocation is a do..end block and a parameter named `arr` is passed into the `do..end` block. 
+  
+  On line 105, the `select` method is invoked on the `arr` parameter. Passed into the `select` method as well are a `do...end` block, which also has a `item` parameter passed into it. If any elements have evaluate to a return value of `true` they will be selected for the transformation with the `map` method invocation. 
+  
+  On line 106 there is a conditional definition with the test expression of `item.to_s.to_i == item` which is checking if the current element is an integer. If it evaluates to true, the program flows to line 107, where an additional test expression is defined `item > 13`. Only `item`s that are greater than `13` will be returned to the `map` method invocation for the new array.
+  
+  In the else statement on 108, there is a test expression in the next line where `item.size < 6`, which means that only `item`s that are less than 6 will have a return value of true and be passed back to the `map` method invocation.
+  
+  The return value of this `map` method invocation is: `[[27], [apple]]`
+  
+  arr = [['1', '8', '11'], ['2', '6', '13'], ['2', '12', '15'], ['1', '8', '9']]
+  
+  arr.sort_by do |sub_arr|
+    sub_arr.map do |num|
+      num.to_i
+    end
+  end
+  
+  This example further demonstrates selection and transformation. 
+  
+  On line 124 we initialize the array object `[]` as  `arr`
+  
+  On line 126 the method `sort_by` is invoked on `arr`. A `do..end` block is passed into the method invocation, and a `parameter sub_arr` is passed into the `do..end` block.
+  
+  On line 127 the method `map` is invoked on parameter `sub-arr`. A `do..end` block is passed into the method invocation and the parameter `num` is passed into the `do..end` block of `map`.
+  
+  On line 128 the method `to_i` is being invoked on `num` parameter and this `num` is sent back to the `map` return value.
+  
+  The `map` return value, which is all the sub-arrays but with all numbers converted to integers, will be used to sort the `arr` array object. The total of each subarray determines its place in ascending order. The return value will be: [["1", "8", "9"], ["1", "8", "11"], ["2", "6", "13"], ["2", "12", "15"]].
+  
+  ['ant', 'bear', 'cat'].each_with_object({}) do |value, hash|
+    hash[value[0]] = value
+  end
+  
+  This example demonstrates transformation of a collection through the `each_with_object` method. On line 146, `each_with_object` is invoked on the collection `array` and a `{}` is passed on the argument to the method. The `do..end` block alongside the method invocation passes in two parameters also, `value, hash`, the second parameter representing the object argument passed into the method invocation. On line 147, a new hash key:value pair is initialized in the return value object {}. The `key` is assigned to the first character of the `string` object that value points to, and the value is assigned to the string object that the element of the original array is pointing towards.
+  
+  The return value of the `each_with_object` method is: {'a' => 'ant', 'b' => 'bear,' 'c' => 'cat'}.
+  
+  str = 'How do you get to Carnegie Hall?'
+  arr = str.split
+  arr.join
+  
+  This example is demonstrating the use of `split` and the initialization of a new local variable that does not mutate the caller.
+  
+  `split` is invoked on the local variable `str` on line 155. When `split` is invoked without an argument passed into it, it will by default split the string into separate `substrings` based on the whitespace within the string. So, in this case, we get the return value of: `words in array`.
+  
+  On the next line, the `join` method is invoked on local variable `arr`.  When `join` is invoked without an argument, it will bring all string elements of an array together with no whitespace. So, the return value is: `[HowdoyougetotCarnegieHall?]`.
+  
+  `arr` is not mutated by the line on 156, thought, so `arr` is still pointing to the array object `[How, do ...]`
+  
+  { a: 'ant', b: 'bear' }.map do |key, value|
+    if value.size > 3
+      value
+    end
+  end
+  
+  The example demonstrates how `map` uses the return value of the do..end block to perform transformation on a collection and return a new array. 
+  
+  On line 166, `map` is a method, invoked on the hash object `a: 'ant', b: 'bear'`. A do..end block alongside the `map` method also has two parameters passed into it: `key, value`.
+  
+  In the do..end block, on line 167, there is a conditional definition and test expression of `if value.size > 3`. This evaluates the element value, passed into the block, and determines if its true that it's larger than integer 3, or the assertion that it is larger than 3 is false.
+  
+  In this case, the only value that evaluates to true is `bear`. So, the return value of the `map` method invocation will be: `[nil, 'bear']`, as we are only returning the value of the original collection's key:value pair, or, if the element evaluates as false in the test expression, the block is returning nil into the `map` method, which then places a nil into the return array.
+  
+  arr = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+  arr[2, 3]
+  arr[2, 3][0]
+  
+  This example demonstrates how to access a range of elements within an array and how to access a single element within that range using the `[]` method.
+  
+  On line 181, the method `[]` is invoked on `arr`. The first argument is the index number of the element in the original collection. This will become the first element in the return value of `[]` method invocation. The second argument is how many elements will be included in the range of elements. So, the return value of arr[2,3] will be: `'c', 'd', 'e'` in an array.
+  
+  On line 182, we specify the same range but also specify an index number by which to select a certain element within the array. In this case, the `[]` method is invoked again, but this time on the first `[]` method invocation. The index number of 0 determines that `'c'` will be the return value, as 0 is always the first index number of a collection, like arrays, strings, and hashes, and the first element of the first `[]` method invocation is `'c'`.
+  
+  [1, 2, 3].map do |num|
+    num.odd?
+    puts num
+  end
+  
+  This example demonstrates how `map` implicitly uses the last line of the block as its return value.
+  
+  On line 190, `map` method is invoked on the array collection `[1,2,3]`. The do..end block alongside the map method invocation is passed a parameter, `num`. Inside the block on line 191, there is a conditional defintion and a test expression of `num.odd?` which checks if the current element, represented by parameter num, is odd, and returns a boolean. 
+  
+  On line 192, the method `puts` is invoked on parameter num, which prints the value of the parameter, which is the current element. The return value of the `puts` method invocation is then returned to the `map` method, which uses the return value to create a new array. In this case, the return value will be: `[nil, nil, nil]` as `puts` method always returns a `nil` value which is not truthy. The output of this `map` method will be: 1, 2, 3, all on separate lines. 
+  
+  def mess_with_vars(one, two, three)
+    one.gsub!("one","two")
+    two.gsub!("two","three")
+    three.gsub!("three","one")
+  end
+  
+  one = "one"
+  two = "two"
+  three = "three"
+  
+  mess_with_vars(one, two, three)
+  
+  puts "one is: #{one}"
+  puts "two is: #{two}"
+  puts "three is: #{three}"
+  
+  This example demonstrates how local variables can be passed into methods and how mutating methods within a method can mutate local variables passed into a method as arguments.
+  
+  The method definition on line 201 takes three parameters. Inside the block of the method definition, there are separate `gsub!` method invocations. The `!` bang suffix indicates that `gsub` will mutate the caller and change the local variable passed in as the argument.
+  
+  The first argument passed into the `gsub!` method is the string object that will be replaced. The second argument passed into the method invocation is the string object that will replace the first string object. 
+  
+  From lines 207 to 209, three local variables are initialized and set to point at different string objects. 
+  
+  On line 211, the method invocation is passed the three local variables initialized on lines 207-209 as arguments. These will be mutated inside of the method's block.
+  
+  The output will be: `one is two, two is three, three is one` since all of the variables have been mutated inside of the method's block. The return value of the method `mess_with_vars` invocation will be `one` as that is the last string object that is used within the method's  block.
+  
+  def foo(param = "no")
+    "yes"
+  end
+  
+  def bar(param = "no")
+    param == "no" ? "yes" : "no"
+  end
+  
+  This example demonstrates the use of default parameters and the use of a method's return value for evaluation.
+  
+  On line 229 the method `foo` is defined and a parameter `param` is passed into it with a default value of `'no`. If no argument is passed into the foo method, it will default pass `'no' as the argument to the method invocation.` The return value of the method `foo` is `'yes'`.
+  
+  On line 233 the method `bar` is defined and like `foo ` it has a default parameter value of `'no'`. Inside the method's block, on line 234, a conditional is defined alongside a test expression of `param == 'no'?` which is checking if the argument is equal to the string object `'no'`. If the argument evaluates to true then `'yes'` is the return value of the method invocation, if the argument evaluates to false theen 'no' is the return value of the method invocation.
+  
+  In this case, since `bar(foo)` is the method invocation with `foo` as its argument, which has a return value of 'yes', the conditional will evaluate to false, as 'yes' is not equal to 'no'. So, the return value will be 'no'.
+  
+  greetings = { a: 'hi' }
+  informal_greeting = greetings[:a]
+  informal_greeting << ' there'
+  
+  puts informal_greeting  #  => "hi there"
+  puts greetings
+  
+  This example demonstrates how local variables can be mutated.
+  
+  On line 245, local variable `greeting` is set to point at hash object `{ a: 'hi'}`
+  and on the next line, local variable `informal_greeting` is initialized and set to reference the same string object `hi` that the `key` of `greetings` does.
+  
+  Since they are pointing at the same str object, if one of them mutates the caller with `<<` then both of them will be mutated. This is because `<<` is a mutating method that appends onto an object, like a string.
+  
+  `informal_greeintg` now points to the str object `hi there` and `greetings` points to the object `hi there` because they are both referecning the same value in memory.
+  
+  def add_eight(number)
+    number + 8
+  end
+  
+  number = 2
+  
+  how_deep = "number"
+  5.times { how_deep.gsub!("number", "add_eight(number)") }
+  
+  p how_deep
+  
+  This method demonstrates how when a method invocation is wrapped in a string, it is longer a method invocation. It is a string.
+  
+  On line 261 there is a method named `add_eight` defined with a parmaeter `number` passed into it. The method's block specifies the operation `number + 8`, which will result in the sum being the return value.
+  
+  265 there is a variable initialized to point at the integer 2. On line 267, local var `howdeep` is initialized and set to point at string object `number`. 
+  
+  On 268, the `times` method is invoked on the number 5, meaning that the method will invoke 5 times. Alongside the time method invocation there is a block defined .
+  
+  In the block, the method `gsub! is invoked on local var `howdeep` with two arguments `: 'number' and add_eight(number)`. This looks like the method invocation of add_eight, but it really is just a string that has nothing to do with the method definied on line 261.` 
+  
+  The output will be: add_eight(add_eight(add_eight(add_eight(add_eight())))) as add_eight was the argument to replace the string number, which is in the parantheses of add_eight().
+  
+  answer = 42
+  
+  def mess_with_it(some_number)
+    some_number += 8
+  end
+  
+  new_answer = mess_with_it(answer)
+  
+  p answer - 8
+  
+  This example demonstrates that the argument passed into a method invocation cannot be reassigned. It can be mutated with mutating methods, however.
+  
+  On line 286, the method `messwithit` is defined and it takes a parameter `somenumber`. Inside the block of the method, the parameter is set to be reassigned to the sum of the parameter + 8.
+  
+  On line 290, new_answer is initialized as the return value of the method invocation `mess with it(answer)`. The return value of messwithit(answer) is 50, which means the integer that new_answer points to 50. However, answer is still the same value as when it was initialized, since the `answer` passed into the method invocation as its argument is a shallow copy of the local variable answer, and the argument is not the same variable as it is outside the scope of the method invocation. There is a new local variable initialized on line 287 within the method definition, and the argument is not reassigned. So, the output on line 292 after the puts method invocation will be 34, since 42-8 = 34.
+  
+  def add_name(arr, name)
+    arr = arr << name
+  end
+  
+  names = ['bob', 'kim']
+  add_name(names, 'jim')
+  puts names.inspect 
+  
+  This example demonstrates that local variables brought in as arguments can be mutated within a method but cannot be reassigned.
+  
+  On line 300, the method `add_name` is defined with two parameters `arr and name`. Inside the method's block, a new local variable is initialized as pointing to the return value of `arr << name`. In that method invocation, the value referenced by parameter name is appended to the object referenced by parameter arr. This results in mutating the caller.
+  
+  `names` is initialized on 304 and points to the array `[bob kim]`. The method invocation on 305 with arguments names, jim, has a return value of `bob, kim, jim` because the local variable initialized within the method is pointing at the same object that the names array is pointing to, even after the appending method `<<`. 
+  
+  The output is `bob, kim, jim` because `arr` is mutated within the method when the method `<<` is invoked on `arr` with argument `name`.
+  
+  def example(str)
+    i = 3
+    loop do
+      puts str
+      i -= 1
+      break if i == 0
+    end
+  end
+  
+  example('hello')
+  
+  This example demonstrates how to pass in an argument into a method and how loops can access variables initialized outside of them.
+  
+  On line 316, method `example` is defined and given a parameter `str`. Inside the method's block, local var `i` is initialized and assigned to 3. Next, `loop` method is invoked and passed a `do..end` block. Inside the `do..end` block, `puts` is invoked with the argument `str`, resulting in the printing of the parameter on a new line. Next, the counter variable `i` is decreased by 1 and reassigned to that new value, and then a guard clause is defined that has the test expression `i == 0`, which means that the loop will terminate once that conditional is true.
+  
+  In this example, the output will be `hello` on three separate lines. 
+  
+  def add_name(arr, name)
+    arr = arr << name
+  end
+  
+  names = ['bob', 'kim']
+  add_name(names, 'jim')
+  puts names.inspect 
+  
+  This example demonstrates how mutating methods mutate the caller even when called during the initialization of a new local variable.
+  
+  On lines 333-335 the method `add_name` is defined and passed two parameters `arr, name`. Inside the method's block, local variable `arr` is initialized and assigned the value of `arr << name` which `<<` is a mutating method that mutates the receiver `arr` by appending the value that `name` is assigned to. 
+  
+  On line 337, `names` is initialized and assigned to the array `['bob, kim]`. On line 338 `add_name` is invoked and passed two arguments `names, jim`. The output of 339 will be `bob, kim, jim` and the return value is nil since `puts` method always returns nil. `names` has been mutated because it was the receiver of the method invocation `<<` within the method `add_name`.
+  
+  a = "hello"
+  
+  [1, 2, 3].map { |num| a }
+  
+  This example demonstrates how `map` method uses the return value of its block to create a new array.
+  
+  On 347 `a` is initialized and assigned to the string object `hello`. 
+  
+  On line 349, `map` method is invoked on receiver `[1,2,3]` and given a block with the parameter `num` passed into it. 
+  
+  Inside the block, local variable `a` is returned to the `map` method. There will be no output and the return value will be `[hello, hello hello]`.
+  
+  def foo(param = "no")
+    "yes"
+  end
+  
+  def bar(param = "no")
+    param == "no" ? "yes" : "no"
+  end
+  
+  bar(foo)
+  
+  This example demonstrates how a method can be passed default parameters. 
+  
+  On lines 359-361, the `foo` method is defined and passed the default `param` of `no`. The return value of `foo` is the string object `yes`. 
+  
+  On lines 363-365, the `bar` method is defined and is passed the default `param` of `'no'`. On line 364 there is a conditional definition: in this conditional, the test expression is: `param == no ? `. If the param evaluates to true, then `yes` will be the return value of the block. If the param evaluates to false, `no` will be the return value of the block. 
+  
+  The return value of the method invocation of `bar` passed argument `foo` will be `no` since the return value of `foo` is `yes` and that value is passed as the argument.
+  
+  counter = 0
+  
+  loop do
+    counter += 1
+    next if counter.odd?
+    puts counter
+    break if counter > 5
+  end
+  
+  This code example demonstrates how the `next` keyword and `break` keyword in a guard clause.
+  
+  On line 377 local variable `counter` is initialized and assigned to value `0`.
+  
+  On lines 379-384 there is a `loop` method invocation alongside a do..end block. Line 380 `counter` gets re-assigned to the value of itself + 1. On 381, there is a guard clause, where the conditional definition is evaluating whether `counter.odd?` evaluates to true or to false. The `counter.odd?` method invocation, where `counter` is the receiver, evaluates to true if `counter` is an odd number. If it evaluates to true, the loop starts its next iteration by re-assigning `counter` again.
+  
+  If `counter.odd?` evaluates to false, the `puts` method is invoked and passed the argument `counter`, which prints the value assigned to `counter`. The guard clause on 383 has a conditional definition, where `counter > 5` is being evaluated as true or false. If `counter > 5` evaluates to true, the loop is broken and the program ends. If it evaluates to false, the loop will undergo another iteration.
+  
+  In this case, the return value will be nil and the output will be 2, 4, 6 on separate lines.
+  
+  [2, 5, 3, 4, 1].sort do |a, b|
+    b <=> a
+  end
+  
+  This example demonstrates how the non-destructive `sort` method can sort in descending order.
+  
+  On line 396, the `sort` method is invoked on the array and receiver `[2,5,3,4,1]`. The do..end block alongside the `sort` method invocation is passed two parameters, `a, b`. 
+  
+  On 397, `b <=> a` defines how the elements should be ordered. The method `<=>` takes `b and a` as arguments, and depending on the result from the comparison, sorts the two consecutive elements. 
+  
+  In this case, the return value of the `sort` method invocation is `[5, 4, 3, 2, 1]`. 
+  
+  USERNAME = 'Batman'
+  
+  def authenticate
+    puts "Logging in #{USERNAME}"
+  end
+  
+  authenticate
+  
+  This example demonstrates how a constant variable is accessible to all scopes.
+  
+  On line 408, constant variable `USERNAME` is initialized and assigned to the string `Batman`.
+  
+  On lines 410-412, the method `authenticate` is defined. It doesn't take a parameter. On line 411, the `puts` method is invoked with the argument `Logging in USERNAME`. This will output the string and it will use the value assigned to the constant variable `USERNAME`.
+  
+  So, the return value of the method invocation `authenticate` on line 414 will be `nil` and the output will be `Logging in Batman`. USERNAME doesn't need to be passed into the method invocation `authenticate` to be accessible since constant variables are accessible everywhere in the code.
+  
+  a = 'hello'
+  
+  puts a # -> hello
+  puts a.object_id # -> 70368527757720 (this number will be different for you)
+  
+  a.upcase! 
+  
+  puts a # -> HELLO
+  puts a.object_id  # -> 70368527757720 (this number will be the same as the one above)
+  
+  The concept demonstrated in this example is mutating the caller. When a method invocation is mutating, the actual object that a variable is assigned to is modified. This is different from re-assignment.
+  
+  On line 424 `a` is initialized and assigned to string object `hello`. On line 429, the `upcase!` method is invoked with the `!` suffix, called bang suffix, which indicates the destructive version of the `upcase` method. This modifies the actual string object, `'hello'` instead of re-assigning the variable `a` to point at a different value. `'hello'` is now `'HELLO'`.
+  
+  So, when the method `object_id` is invoked on argument `a` of the method invocation `puts`, the output is the same object_id number as in 427 and the return value is `nil`.
+  
+  loop do
+    MY_TEAM = "Phoenix Suns"
+    break
+  end
+  
+  puts MY_TEAM
+  
+  This example demonstrates the concept of variable scope with regards to inner scope and outer scope. When a local variable is initialized within an inner scope, it is not accessible within the outer scope; however, if a constant is intialized within the inner scope it is accessible within the outer scope.
+  
+  For example, within the `loop` method invocation on lines 440-443, the variable `MY_TEAM` is initialized and assigned to the string object `Phoenix Suns`. 
+  
+  On line 445 when the `puts` method is invoked and `MY_team` is passed to it as an argument, the code will output a local variable error, as the variable `MY TEAM` does not exist in the outer scope and therefore cannot be used as an argument.
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false

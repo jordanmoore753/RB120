@@ -1,0 +1,54 @@
+createdAt: "2019-05-02T16:12:44.857Z"
+updatedAt: "2019-05-02T16:18:06.873Z"
+type: "MARKDOWN_NOTE"
+folder: "18d218dbb9db582ec753"
+title: "Polymorphism"
+tags: []
+content: '''
+  #### Polymorphism
+  Polymorphism is the ability of different objects to respond in different ways to a message or method invocation.
+  
+  ###### How does inheritance achieve polymorphism?
+  Inheritance hierarchy affects and achieves polymorphism. Let's look at this:
+  ``````
+  class Animal
+    def eat
+    
+    end
+  end
+  
+  class Cat < Animal
+    def eat
+    
+    end
+  end
+  
+  class Dog < Animal
+    def eat
+    
+    end
+  end
+  
+  def feed_the_animal(animal)
+    animal.eat
+  end
+  
+  animals = [Animal.new, Cat.new]
+  
+  animals.map do |ele|
+    feed_the_animal(ele)
+  end
+  ``````
+  The public interface of `feed_the_animal` allows us to work with the different objects in the `animals` array. This is polymorphism, since different objects can be interpreted and manipulated in different ways by the same method `feed`.
+  
+  
+  
+  
+  
+  
+  
+  
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false

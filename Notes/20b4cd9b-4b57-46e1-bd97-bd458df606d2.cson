@@ -1,0 +1,51 @@
+createdAt: "2019-05-02T17:00:47.607Z"
+updatedAt: "2019-05-02T19:07:48.090Z"
+type: "MARKDOWN_NOTE"
+folder: "18d218dbb9db582ec753"
+title: "Rock, Paper, Scissors"
+tags: []
+content: '''
+  #### Rock, Paper, Scissors
+  ###### General Game Flow
+  1. User makes a choice.
+  2. Computer makes a choice.
+  3. Winner is displayed.
+  
+  ###### Description
+  RPS is a two-player game where each player seeks to reach a pre-determine amount of wins before the other. A player wins a point by choosing the option that defeats the opponent's choice. 
+  
+  There are only ties when the player chooses the same option as their opponent.
+  
+  For instance, paper beats rock, rock beats scissors, and scissors beats paper.
+  
+  ###### Nouns
+  1. Choice (RPS)
+  2. Amount of wins
+  3. Point
+  4. Option
+  5. Opponent
+  6. Tie
+  7. Player
+  
+  ###### Verbs
+  1. Choose
+  2. Compare
+  3. Wins
+  4. Loses
+  5. Reach Point Limit
+  
+  ##### Reflection Before Walkthrough
+  1. I need to understand how to reference sub-classes in a superclass.
+  2. I rely on modules too much, need to start using methods in sub-classes more.
+  3. My logic is overall very good and it was easy to implement procedural logic in an OOP framework. 
+  4. It only took me about two hours to finish the prototype with optional features (RPSCLS).
+  5. I feel excited about learning new ways to use sub-classes and have more orderly code. I can start to see the skeleton of the Pokemon Battle system. It's faint but I'm seeing how they group things.
+  6. I grouped WAY too many methods in the main RPSGame superclass. Once I can reference sub-classes better I will refactor and encapsulate the code in other sub-classes.
+  
+  
+  
+  
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false

@@ -1,0 +1,142 @@
+createdAt: "2019-05-01T12:32:57.107Z"
+updatedAt: "2019-05-01T13:05:55.712Z"
+type: "MARKDOWN_NOTE"
+folder: "07cf57a1f5f4b487f234"
+title: "Classes and Objects II"
+tags: []
+content: '''
+  #### Classes and Objects II
+  This page of notes will mostly deal with **class-level** methods and variables.
+  
+  **Class Methods** are methods that can be invoked on the method itself without having to instantiate any objects. I'm not sure why this is useful yet, but I'm sure there will be something.
+  
+  ``````
+  class GoodDog
+    @@number_of_dogs = 0
+  
+    def initialize
+      @@number_of_dogs += 1
+    end
+  
+    def self.number_of_dogs
+      @@number_of_dogs
+    end
+  end
+  ``````
+  In this example, the class method is:
+  
+  `def self.number_of_dogs`
+  
+  It's keeping track of how many dog objects are instantiated with the class GoodDog. So, really, it's checking how many good dogs there are. 
+  
+  There's also another new concept in that example: **Class Variables**. The class variable in the previous example is:
+  
+  `@@number_of_dogs`
+  
+  The `@@` is the giveaway. Class variables keep track of data pertinent to the entire class. In this example, it's keeping track of how many good dogs are instantiated. One thing to note about class variables:
+  1. Class variables can be accessed from within instance methods (`initialize`)
+  
+  #### Constants
+  Sometimes there are values that you don't ever want to change, like everyone thought of you when signing your high school yearbook. This is where **constants** are useful.
+  ``````
+  class GoodDog
+    DOG_YEARS = 7
+  
+    attr_accessor :name, :age
+  
+    @@number_of_dogs = 0
+  
+    def initialize(n, a)
+      self.name = n 
+      self.age = a * DOG_YEARS
+      @@number_of_dogs += 1
+    end
+  
+    def self.number_of_dogs
+      @@number_of_dogs
+    end
+  end
+  
+  lola = GoodDog.new('Lola', 3)
+  jack = GoodDog.new('Jack', 2)
+  puts lola.age
+  ``````
+  In this example, the constant is:
+  
+  `DOG_YEARS = 7`
+  
+  It isn't necessary to make all characters uppercase for a constant, but it is standard Ruby practice to do so. So, do it! It's pretty self-explanatory what we're doing here in this code, and you've worked with constants before so this really is nothing new.
+  
+  #### to_s
+  Yes, you know what `to_s` is. But, did you know that `puts` is really just using `to_s`? That's what happens when this code runs:
+  
+  `puts lola => #<GoodDog:0x0000000003134cc0>`
+  
+  Just remember that `to_s` is being used when `puts` is called and you will have an easier time coding in OO.
+  
+  #### self
+  No, we're not getting into the waste of time that is psycho-analysis. We're talking about the keyword `self`. As of now, we know that:
+  1. `self` specifies a certain scope.
+  2. `self` is used when calling **setter** methods from within the class.
+  3. `self` is used when defining class methods.
+  
+  When we invoke `self` in an instance or class method, we return the calling object. Here's an example:
+  
+  ``````
+    def what_is_self
+      self
+    end
+    
+    p lola.what_is_self
+    => #<GoodDog:0x0000000003184630 @name="Lola", @age=21>
+  ``````
+  So, really, `self` is just the same as `lola`, or `jack`. It's just returning the calling object or a state of the calling object.
+  
+  ``````
+  class HistoryClass
+    def self.this_is_class
+    
+    end
+  end
+  
+  puts self
+  => HistoryClass
+  ``````
+  Within the context of using `self` to define a class method, the `self` in this example really means `HistoryClass`, since it defines the `self` within a given scope. In this class scope, the `self` is `HistoryClass`.
+  
+  #### Memorize These Rules
+  1. When `self` is inside of an instance method, it references the object that the method is called on. 
+  2. When `self` is used outside of an instance method it is referencing the class.
+  
+  Examples:
+  ``````
+  Class GoodDog
+    
+    def initialize(n, a)
+      self.name = n => Calling Object, like Lola
+      self.age = a
+    end
+  
+  puts self => GoodDog, the class
+  end
+  ``````
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false

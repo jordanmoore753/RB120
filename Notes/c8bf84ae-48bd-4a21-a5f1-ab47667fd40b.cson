@@ -1,0 +1,32 @@
+createdAt: "2019-04-17T16:43:14.243Z"
+updatedAt: "2019-04-20T21:50:01.660Z"
+type: "MARKDOWN_NOTE"
+folder: "18d218dbb9db582ec753"
+title: "Further Study"
+tags: []
+content: '''
+  ### Further Study
+  
+  ### Notes on Written
+  Questions were specific.
+  Super long answers weren't a problem.
+  Went by quickly!
+  
+  ### Notes on Interview
+  40 minutes to an hour.
+  Target 20 minutes per problem.
+  2 problems to solve.
+  Write pseudocode! It really helps.
+  Figure out the algorithm and you will be set to go.
+  Every question can be solved with common collection methods: select, each, map, etc,.
+  Check the test cases! If you don't, you may end up solving the wrong problem or not including edge cases.
+  
+  ###### Things That Can Go Wrong
+  1. You can't predict how things will go in front of someone else. Do lots of live code sessions with others.
+  2. Not talking out loud enough. Explain your thought process and use this to augment your algorithm.
+  3. Be comfortable with medium-level problems. Handle them with relative ease (< 20 minutes ).
+  4. You can't rely on ruby-docs, so if that's part of your coding practice now, remove it from your strategies.
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false

@@ -1,0 +1,631 @@
+createdAt: "2019-05-16T16:46:10.280Z"
+updatedAt: "2019-05-20T12:42:47.791Z"
+type: "MARKDOWN_NOTE"
+folder: "18d218dbb9db582ec753"
+title: "RB129 Study Guide"
+tags: []
+content: '''
+  ### RB129 Study Guide
+  For each concept, define it, explain it in your own words, and illustrate it with a few code snippets. This is the requirement for the written test.
+  
+  ##### Class
+  A class is a container for data. A class contains a blueprint for what the objects instantiated from it will contain, its state, and the behaviors that the object/instances will be able to perform. The class is like the mold from which the artist produces a sculpture (object, instance). 
+  ``````
+  class Cat
+    def initialize(name)
+      @name = name
+    end
+  end
+  ``````
+  This is a class definition. The class is `Cat`. 
+  
+  ``````
+  class Animal
+    def initialize(name)
+      @name = name
+    end  
+  end
+  
+  class Cat < Animal
+  end
+  ``````
+  This is an example of class inheritance. `Cat` is the subclass and `Animal` is the superclass. Cat inherits `initialize` from `Animal` as it is its subclass. 
+  
+  ##### Object
+  An object is an instance of a given class. An object is another container of data. The data that an object contains is the object's state, or collection of attributes/instance variables, and the behaviors of that object. 
+  
+  ##### Polymorphism
+  Polymorphism is the ability of different objects to respond in different ways to the **same** message. 
+  
+  ``````
+  class Monkey
+    def speak
+      puts "OOH"
+    end
+  end
+  
+  class Fish
+    def speak
+      puts "bubble"
+    end
+  end
+  
+  class Dog
+    def speak
+      puts "WOOF"
+    end
+  end
+  
+  def everyone_speak(arr)
+    arr.each { |animal| animal.speak }
+  end
+  
+  animals = [Monkey.new, Fish.new, Dog.new]
+  
+  everyone_speak(animals)
+  => OOF, bubble, WOOF
+  ``````
+  The objects in this example are `Monkey, Dog, Fish`. The 'same message' in this example is `speak` on line 20. The different results are on line 26. Each object responded to the same method invocation (speak) and produced a different result (puts). This is because they all share the same method, `speak`, but each of their `speak` methods produces a different result.
+  
+  ###### Duck Typing Polymorphism
+  Duck Typing is a peculiar term. It's also impossible to not use a duck analogy when explaining it. Essentially, Ruby as a language is not concerned with the class of an object; rather, it is concerned with the methods available to that object.
+  
+  So, if a person quacks like a duck, moves like a duck, or swims like a duck, Ruby will treat that person as a **duck**. This is just the way that Ruby acts, as it is a dynamic language and looks beyond just the class of an object and looks at its methods.
+  
+  Here's an example:
+  ``````
+  class Duck
+    def quack
+      puts "Quack!"
+    end
+  end
+  
+  class Person
+    def quack
+      puts "I imitate a duck QUACK!"
+    end
+  end
+  
+  def in_the_pond(duck)
+    duck.quack
+  end
+  
+  me = Person.new
+  doug = Duck.new
+  in_the_pond(me)
+  => I imitate a duck QUACK!
+  ``````
+  In this example, Ruby treats the object `me` as a `duck`. This is also an example of polymorphism, as two different objects, `me` and `doug` respond to the same method call `quack` with different results. 
+  
+  ##### Getter and Setter
+  A getter method is one that returns the value of an instance variable. There are two different ways to create a getter method. One way is to use `attr_reader` and the other is to create an instance method with the same name as the instance variable but without the `@`.
+  Here's the first example:
+  ``````
+  class Cat
+    attr_reader :name
+    
+    def initialize(name)
+      @name = name
+    end
+  end
+  
+  pat = Cat.new('Patrick')
+  puts pat.name
+  => 'Patrick'
+  ``````
+  And here's the manual way:
+  ``````
+  class Cat
+    def initialize(name)
+      @name = name
+    end
+    
+    def name
+      @name
+    end
+  end
+  
+  pat = Cat.new('Patrick')
+  puts pat.name
+  => 'Patrick'
+  ``````
+  `attr_reader` creates the same getter method as `def name`. The reason why we use `attr_reader` is because it saves time and space in our code.
+  
+  ``````
+  class Cat
+    attr_reader :name
+    
+    def initialize(name)
+      @name = name
+    end
+    
+    def what_name
+      puts "My name is #{name}."
+    end
+  end
+  
+  pat = Cat.new('Patrick')
+  pat.what_name
+  => 'My name is Patrick.'
+  ``````
+  Now, when we reference `name` in the code, we're not referencing the instance variable `@name`; instead, we're referencing the getter method that retrieves the instance variable `@name`.
+  
+  With reader, we still can't set/re-assign the value of our instance variable. There's another type of method for that, a **setter** method. This type of method sets the value of an instance variable. There are two ways to create a setter method: using `attr_writer` or creating it manually. Here are the two versions:
+  ``````
+  class Cat
+    attr_writer :name
+    attr_reader :name
+    
+    def initialize(name)
+      @name = name
+    end
+  end
+  
+  pat = Cat.new('Patrick')
+  pat.name = 'Steve'
+  puts pat.name
+  => 'Steve'
+  ``````
+  or,
+  ``````
+  class Cat
+    attr_reader :name
+    
+    def initialize(name)
+      @name = name
+    end
+    
+    def name=(input)
+      @name = input
+    end
+  end
+  
+  pat = Cat.new('Patrick')
+  pat.name = 'Steve'
+  puts pat.name
+  => Steve
+  ``````
+  Again, `attr_writer` saves time and space so I prefer to use it. The extremely important thing to realize, is that on line 153, I explicitly used `@name` even though we have an `attr_reader` for `@name`. When setting the value of an instance variable, you need to use the full instance variable name, @ included; otherwise, Ruby interprets the code as assigning a new local variable.
+  
+  If you want both a setter and getter for an instance method, all you need to do is use `attr_accessor` and specify the instance variable by symbol again (`:name`). Here's an example:
+  ``````
+  class Cat
+    attr_accessor :name
+    
+    def initialize(name)
+      @name = name
+    end
+    
+    def what_name
+      puts "My name is #{name}."
+    end
+  end
+  
+  pat = Cat.new('Patrick')
+  puts pat.name
+  pat.name = 'Steve'
+  pat.what_name
+  => Patrick
+  => My Name is Steve.
+  ``````
+  See? This saves even more time and space for us.
+  
+  ##### Using Getter/Setter vs Referencing Instance Variables
+  There are advantages and disadvantages in using getter/setters or just referencing and setting the instance variables directly. I'll explain the advantages of using getter/setter first:
+  1. It's safer for the instance variable, since you're passing a reference to the instance variable in an instance method; rather, than accessing the instance variable/state of the object directly.
+  2. Let's say you have 500,000 lines of code in your app. You realize you need to change how the setter works for the instance variable, `@name`. However, you didnt' use the setter method, `attr_writer`; instead, you directly referenced the instance variable to re-assign it every time, over the course of 500,000 lines of code. Which would be easier to refactor? One setter method that is used 300 times in the code? Or 300 separate references to the same instance variable? I think that using the setter method in the first place and having the setter method to modify is easiest and safest.
+  3. Readability. In general, when you can outsource the function of the code to a method you should do it. In this case, why reference the instance variable and not use a setter method to do it? The setter method saves time and space in the code.
+  
+  Disadvantages of using getter/setters:
+  1. Easier to violate principle of Encapsulation potentially. Since you will be able to reference the instance variable by invoking the getter or setter method, depending on how you set the permissions (protected, public, private), you may be able to get and set that instance variable in the wrong place in your program, resulting in unforeseen and unwanted errors.
+  2. Harder to refactor if there is a hard-to-find error that is the result of a `attr` getter or setter. This is because the method isn't visible, it is only visible on the line `attr_reader :name`. In extremely large programs this could pose a problem.
+  
+  ##### Encapsulation
+  Encapsulation is the (enclosing) hiding of pieces of functionality or data and making them unavailable to the rest of the program. Essentially, it is a form of data protection. This principle attempts to prevent error compounding and unnecessary or unallowed data retrieval and manipulation. Ruby achieves Encapsulation by creating containers for data, like classes, objects, and modules, but chiefly through the use of objects.
+  
+  Here's an example:
+  ``````
+  class Duck
+    def initialize(name)
+      @name = name
+    end
+    
+    def what_name
+      puts "My name is #{name}."
+    end
+  end
+  
+  donald = Duck.new('Donald')
+  puts donald.name
+  => NoMethodError
+  ``````
+  This is encapsulation at work. We are unable to retrieve the instance variable `@name` because it is protected by default. It is hidden to all objects outside of itself by default. We can change this by changing the permissions inside of the class. One way to allow access to state is to use getter, setter, or accessor methods. Here's an example:
+  ``````
+  class Duck
+    attr_reader :name
+    
+    def initialize(name)
+      @name = name
+    end
+    
+    def what_name
+      puts "My name is #{name}."
+    end
+  end
+  
+  donald = Duck.new('Donald')
+  puts donald.name
+  => Donald
+  ``````
+  Now we can retrieve the value assigned to the instance variable `@name`. We can do the same with `attr_writer` and `attr_accessor`. 
+  
+  Furthermore, we can even restrict or grant access to the getter and setter methods:
+  ``````
+  class Duck
+    def initialize(name)
+      @name = name
+    end
+    
+    def what_name
+      puts "My name is #{name}."
+    end
+    
+    private
+    
+    attr_reader :name
+  end
+  
+  donald = Duck.new('Donald')
+  puts donald.name
+  => Private Method Error!
+  donald.what_name
+  => My name is Donald.
+  ``````
+  Here, we've made it so that `name` getter method can only be invoked by being invoked in the body of a public instance method. A public instance method is one that is above the protected or private methods in the class. These public methods can be invoked by the object outside of the object, unlike protected or private methods. The difference between protected and private methods are that protected methods can be invoked by one object on another object of the same class.
+  
+  Methods beneath either private and protected can only be invoked by being called within a public instance method. The difference is, however, that protected instance methods can be invoked on another instance of the same class. Let's see this with an example:
+  ``````
+  class Animal
+    def initialize(num)
+      @num = num
+    end
+    
+    def compare_to(other)
+      num < other.num
+    end
+    
+    protected
+    
+    attr_reader :num
+  end
+  
+  me = Animal.new(3)
+  you = Animal.new(4)
+  puts me.compare_to(you)
+  => true
+  ``````
+  So, to summarize, we have achieved encapsulation here by creating different containers of data and hiding them from the outside beyond the object. `protected` hides the `attr_reader`, class `Animal` is a container for data and hides itself from objects of another class by default, and even `@num` is a container for data that is hidden by default. This is shown by our inability to reference the variable by name directly on the object and also from outside the object completely. 
+  ``````
+  puts me.num
+  => Protected method error
+  puts @num
+  => nil
+  ``````
+  ##### Instance Methods vs Class Methods
+  Instance methods are methods that are available for use by the instance, not by the class. For example, if we try to invoke an instance method on the class, it will raise an exception for NoMethodError, and vice-versa. Let's see an example:
+  ``````
+  class Primate
+    def self.from_class
+      "Hello from #{self}"
+    end
+    
+    def from_the_instance
+      "Hello from #{self}"
+    end
+  end
+  
+  me = Primate.new
+  puts Primate.from_class
+  puts me.from_the_instance
+  ``````
+  A class method is always prepended with `self`. `self` refers to the calling object. If you see a method definition and `self` at the front of it, you know it's a class method. As we can see from the example before, the `self` being referenced in the class and instance methods is different. This is because the calling object is obviously different in each case. In the class method, the calling object is the class, and in the instance method, the calling object is the instance. Let's look at class variables to see why class methods may be useful:
+  ``````
+  class Primate
+  
+    @@number_of_primates = 0
+  
+    def initialize
+      @@number_of_primates += 1
+    end
+  
+    def self.from_class
+      "Hello from #{self}"
+    end
+    
+    def from_the_instance
+      "Hello from #{self}"
+    end
+  
+    def self.number_of_primates
+      @@number_of_primates
+    end
+  end
+  
+  me = Primate.new
+  you = Primate.new
+  puts Primate.from_class
+  puts me.from_the_instance
+  puts Primate.number_of_primates
+  => 2
+  ``````
+  Here, we've instantiated the class variable `@@number_of_primates` on line 328. If you see `@@` then you're looking at a class variable. This is a variable that pertains to the entire class. Every time a new object is instantiated from the Primate class, we increment the class variable by 1. So, after instantiating two Primate objects, we have 2 for @@number_of_primates.
+  
+  ##### Self
+  Self is a keyword used to define a certain scope in our program. Self refers to the calling object of a method invocation.
+  
+  The **two** rules of thumb regarding what `self` is referring to are as follows:
+  1. When `self` is invoked within an instance method, it is referring to the object invoking the method, also known as the calling object.
+  2. When `self` is outside an instance method, it is referring to the class and can be used to define class methods.
+  
+  An example of #1:
+  ``````
+  class Cat
+    attr_reader :name, :height
+  
+    def initialize(n, h)
+      @name = n
+      @height = h
+    end
+    
+    def info
+      puts "#{self.name}, #{self.height}"
+    end
+  end
+  
+  me = Cat.new('Jack', 4)
+  me.info
+  => 'Jack', 4
+  ``````
+  We need to have a getter for both instance variables, as we are invoking a method on the `self` in `info`. If we don't include the getter we would raise a NoMethodError. It's clear that `self` is referring to the calling object, in this case: `me`, and then invoking the appropriate instance method, namely, the getter.
+  
+  An example of #2:
+  ``````
+  class Dog
+  
+    @@number_of_dogs = 0
+    
+    def initialize(n)
+      @name = n
+      @@number_of_dogs += 1
+    end
+    
+    def self.number
+      @@number_of_dogs
+    end
+    
+    def self.what_am_i
+      puts "#{self}"
+    end
+  end
+  
+  me = Dog.new('Rufus')
+  you = Dog.new('Jake')
+  Dog.what_am_i
+  => Dog
+  ``````
+  Class methods use `self` to refer to the calling object, the class, in this case: `Dog`. We see this with `self` prepended to the method definition on lines 393 and 397.
+  
+  ##### Modules
+  A module is a collection of behaviors that can be mixed into a class. It does this by using `mixins` which looks like `include` at the start of the class. 
+  ``````
+  module Swimmable
+    def swimming
+      puts "#{self.name} is swimming."
+    end
+  end
+  
+  class Mammal
+    attr_reader :name
+  
+    def initialize(name)
+      @name = name
+    end
+  end
+  
+  class Cat < Mammal; end
+  
+  class Dog < Mammal
+    include Swimmable
+  end
+  
+  rufus = Cat.new('Rufus')
+  ted = Dog.new('Ted')
+  rufus.swimming
+  => NoMethodError
+  ted.swimming
+  => Ted is swimming.
+  ``````
+  We've mixed in the module `Swimmable` into ONLY the class Dog. We didn't include it in Cat, because it's rare for cats to swim. Modules allow us to implement the DRY principle, which stands for Don't Repeat Yourself. We don't want to have to write out the swimming method for each mammal that can swim, because we can't include it for all mammals because there are a ton of mammals who can't swim. We need another way to save time and space for coding by including modules that have certain behaviors. 
+  
+  This also allows polymorphism. In our last case, if we have another Dog instance, but with a different name, we're techniquely using Polymorphism, since each dog object is responding to the same method call, `name`, and outputting a different result, the value of their @name variable. 
+  
+  ##### Inheritance
+  Inheritance is crucial to understanding how behaviors are inherited and invoked within an OO-framework.
+  
+  In Ruby, there are sub-classess and superclasses. A sub-class is a class that inherits from a another class, called the superclass. A sub-class can only inherit from one super-class by definition, but the sub-class also inherits the behaviors of any superclasses that the immediate superclass is a sub-class from. That was a lot of words, so let's look at an example:
+  ``````
+  class Organism
+    attr_reader :desire_to_live
+  
+    def desire_to_live
+      @desire_to_live = true
+    end
+  end
+  
+  class Mammal < Organism
+    def breathe
+      puts "I breathe with lungs."
+    end
+  end
+  
+  class Cat < Mammal
+    def initialize(name, breed)
+      @name = name
+      @breed = breed
+    end
+  end
+  
+  rufus = Cat.new('Rufus', 'Shorthair')
+  rufus.breathe
+  puts rufus.desire_to_live
+  ``````
+  In this example, Cat is the sub-class of Mammal, and Mammal is the sub-class of Organism. Mammal is a super-class and so is Organism. Organism is also a sub-class, though. Let's invoke `ancestors` on each class, not an object of each class.
+  ``````
+  puts 'Cat ancestors'
+  puts Cat.ancestors
+  puts 'Mammal ancestors'
+  puts Mammal.ancestors
+  puts 'Organism ancestors'
+  puts Organism.ancestors
+  ``````
+  Here, we can see that each of these classes, by virtue of being custom defined, are sub-classes of built-in classes of *Ruby*. These sub-classes all inherit the behaviors, like `to_s`, `map`, `each`, of the built-in super=classes like `BasicObject`, `Kernel`, and `Object`.
+  
+  Inheritance is a key concept in determining how classes and modules will be defined in our programs. In following the DRY principle, we want to not repeat ourselves as much as possible, so it's up to us to use class inheritance and module mixins in the appropriate spots to allow minimal repeating. A few easy rules to remember for when to use class inheritance vs. modules are as follows:
+  1. If it is an 'is-a' relationship, use class inheritance. For example, if a dog is a mammal, use class inheritance.
+  2. If it is a 'has-a' relationship, use modules. For example, if a dog can swim, include the module for swimming behaviors.
+  3. You can mix in as many modules as you want, so keep this in mind when determining what methods need to be in a class or a module to be included in that class.
+  4. You cannot instantiate objects from a module. Modules are used for grouping common methods together.
+  
+  ##### State, Attributes, Instance Variables
+  Time to put an end to the clusterf--- in my mind concerning what state is, attributes are, and whether or not instance variables define state or vice-versa.
+  
+  State is the collection of all instance variables and their values defined for an instance/object.
+  
+  Attribute is an instance variable and value, in addition to it being accessible outside the methods defined by the class, which means you need a getter, setter, or both, for it to be called an attribute. Otherwise, it's just an instance variable tracked by state.
+  
+  Instance variables are NOT inheritable; rather, each object of a class has its own copy of the instance variable with its own value. Instance methods are inheritable though.
+  
+  State is a property of an object/instance, so it is not inheritable.
+  
+  Attribute names and values are not methods, so they are not inheritable. Attribute getter and setter methods are methods, so they are inheritable.
+  
+  ##### Collaborator Objects
+  Objects that are stored as state within another object are called **collaborator objects**. This means that strings are collaborators, arrays are collaborators, and custom defined objects are also collaborators.
+  
+  When we typically talk about working with collaborator objects, we're talking about working with custom defined objects, like `Cat`. Let's see an example.
+  ``````
+  class Person
+    attr_reader :name
+    attr_accessor :pets
+    
+    def initialize(name)
+      @name = name
+      @pets = []
+    end
+    
+    def adopt_pet(pet)
+      pets << pet
+    end
+  end
+  
+  class Mammal
+    def initialize(name)
+      @name = name
+    end
+  end
+  
+  class Dog < Mammal
+  end
+  
+  class Cat < Mammal 
+  end
+  
+  me = Person.new('Jordan')
+  miley = Cat.new('Miley')
+  scout = Dog.new('Scout')
+  me.adopt_pet(miley)
+  me.adopt_pet(scout)
+  p me.pets
+  => [#<Cat:0x00000000032fbb08 @name="Miley">, #<Dog:0x00000000032fbab8 @name="Scout">]
+  ``````
+  Here, we have two collaborator objects that are custom defined objects stored in another object's state: miley and scout. They belong to the person object, `me`, and are stored in the attribute `@pets`. 
+  
+  So, remember that collaborator objects are simply objects that are stored as state in another object. Collaborator objects have a 'has-a' relationship with the object that stores them in its state as instance variables.
+  
+  For example, a pet-owner has pets, and that's why pets is comprised of collaborator objects, different pets of different classes. Also, pet-owner has a name, and that's why the string object is stored as an attribute and instance variable in the pet-owner's state.
+  
+  ##### Fake Operators
+  Some methods that appear to be operators, like `**` and `==` are actually methods in disguise. What's important about that is that methods can be overriden in classes. So, we can override methods to make them specifically work for instances of our class. Let's look at an example:
+  ``````
+  class Person
+    attr_reader :name, :bench
+    
+    def initialize(name, bench)
+      @name = name
+      @bench = bench
+    end
+    
+    def >(person)
+      puts "#{name} can bench more than #{person.name}." if bench > person.bench
+    end
+  end
+  
+  joe = Person.new('Joe', 425)
+  bruce = Person.new('Bruce', 325)
+  joe > bruce
+  => Joe can bench more than Bruce.
+  ``````
+  Obviously, we need a condition for if the first expression evaluates to false, but I think you get the picture. We can override the `>` method to mean exactly what we want for our class, meaning, we can specify an instance variable to compare between instances of the same class.
+  
+  ##### Method Lookup Path
+  The Method lookup path is of integral importance to understanding inheritance. Essentially, when a method is invoked on an object, the object will first search for the method in it's immediate object. It will look through all of the instance methods in the class that the object is an instance of. Then, it will look through any modules that the class may include. If no method is found still, it will look in the superclass, and move up the method chain until it returns a NoMethodError.
+  ``````
+  module CanSwim
+    def swim
+      'swim'
+    end
+  end
+  
+  module CanTrain
+    def train
+      'train'
+    end
+  end
+  
+  class Dog
+    include CanSwim
+    include CanTrain
+  end
+  
+  p Dog.ancestors
+  => [Dog, CanTrain, CanSwim, Object, Kernel, BasicObject]
+  ``````
+  From left to right, this is the order that the method lookup path takes when looking for the method invocation called by the object. First, it looks in the immediate class of the object, then it looks in its modules from bottom to top, then it looks in the superclass(es).
+  
+  Here's an example for using method overriding:
+  ``````
+  class Mammal
+    def to_s
+      puts "I'm a mammal."
+    end
+  end
+  
+  class Dog < Mammal
+    def to_s
+      "I'm a dog but also a mammal."
+    end
+  end
+  
+  me = Dog.new
+  puts me
+  => I'm a dog but also a mammal.
+  ``````
+  Understanding the method lookup path allows a programmer to correctly override the methods that must be overriden for proper functioning of the program. Understanding the method lookup path also prevents the programmer from misplacing or misunderstanding which method is being called from which class or module when some method is invoked. Ultimately, understanding the lookup path gives programmers more control and specificity over their code.
+  
+  ##### Namespacing
+  
+  
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false

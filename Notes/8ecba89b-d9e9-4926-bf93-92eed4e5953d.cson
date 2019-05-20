@@ -1,0 +1,860 @@
+createdAt: "2019-05-20T14:09:04.103Z"
+updatedAt: "2019-05-20T16:27:41.390Z"
+type: "MARKDOWN_NOTE"
+folder: "18d218dbb9db582ec753"
+title: "RB129 Code Examples"
+tags: []
+content: '''
+  #### RB129 Code Examples
+  ##### Class & Object
+  Just a normal `class`
+  ``````
+  class Cat
+    def initialize(name)
+      @name = name
+    end
+  end
+  ``````
+  Class with `instance method`
+  ``````
+  class Cat
+    def initialize(name, age)
+      @name = name
+      @age = age
+    end
+    
+    def display_both
+      puts "#{@name} is #{@age} years old."
+    end
+  end
+  
+  tom = Cat.new('Tom', 32)
+  tom.display_both
+  ``````
+  Class with `class method`
+  ``````
+  class Person
+    
+    @@number_of_people = 0
+    
+    def initialize(name)
+      @name = name
+      @@number_of_people += 1
+    end
+    
+    def self.number_ppl
+      puts "#{@@number_of_people} persons created."
+    end
+  end
+  
+  me = Person.new('Jordan')
+  Person.number_ppl
+  ``````
+  ##### attr_reader, writer, accessor
+  Just `attr_reader` and it's equivalent
+  ``````
+  class Person
+    attr_reader :name
+    
+    def initialize(name)
+      @name = name
+    end
+    
+    #def name
+     #@name
+    #end
+  end
+  
+  me = Person.new('Jordan')
+  puts me.name
+  ``````
+  `attr_reader` and `attr_writer`, + `attr_writer` equivalent and `self` use
+  ``````
+  class Dog
+    attr_reader :name, :weight
+    attr_writer :weight
+    
+    def initialize(name, weight)
+      @name = name
+      @weight = weight
+    end
+    
+    #def weight=(new_weight)
+      #@weight = new_weight 
+    #end
+    
+    # def change_weight(new_weight)
+    #   self.weight = new_weight
+    # end
+  end
+  
+  rufus = Dog.new('Rufus', 32)
+  puts rufus.weight
+  rufus.weight = 35
+  puts rufus.weight
+  ``````
+  `attr_accessor` + `private` method
+  ``````
+  class Goat
+    def initialize(name)
+      @name = name
+    end
+    
+    def change_name(new_name)
+      self.name = new_name
+    end
+    
+    def display_name
+      name
+    end
+    
+    private
+    
+    attr_accessor :name
+  end
+  
+  dave = Goat.new('Dave')
+  puts dave.display_name
+  dave.change_name('Pat')
+  puts dave.display_name
+  ``````
+  Using `getter` and `setter`
+  ``````
+  class Cat
+    attr_writer :name
+    attr_reader :name
+    
+    def initialize(name)
+      @name = name
+    end
+  end
+  
+  pat = Cat.new('Patrick')
+  pat.name = 'Steve'
+  puts pat.name
+  ``````
+  ##### Instance and Class Methods
+  `instance` and `class`
+  ``````
+  class Both
+    def instance_method
+      puts "Instance method"
+    end
+    
+    def self.class_method
+      puts "Class method."
+    end
+  end
+  
+  me = Both.new
+  me.instance_method
+  Both.class_method
+  ``````
+  `instance` and `class` and instance method with `self`.
+  Self refers to the class in the class method, and self refers to instance in second example.
+  ``````
+  class Dog
+    attr_reader :name
+    
+    def initialize(name)
+      @name = name
+    end
+    
+    def self.what_class
+      puts "This is #{self} class."
+    end
+    
+    def display_name
+      puts "My name is #{self.name}."
+    end
+  end
+  
+  scout = Dog.new('Scout')
+  Dog.what_class
+  scout.display_name
+  ``````
+  ##### Referencing and setting instance variables vs getters and setters
+  Manual getter
+  ``````
+  class Dolphin
+    def initialize(n)
+      @name = n
+    end
+    
+    def name
+      @name
+    end
+  end
+  ``````
+  Manual setter and getter
+  ``````
+  class Barbarian
+    def initialize(atk)
+      @atk = atk
+    end
+    
+    def increase_atk(pwr)
+      @atk += pwr
+    end
+    
+    def display_atk_pwr
+      p @atk
+    end
+  end
+  
+  clash = Barbarian.new(34)
+  clash.display_atk_pwr
+  clash.increase_atk(4)
+  clash.display_atk_pwr
+  ``````
+  ##### Inheritance
+  sub-class and superclass
+  ``````
+  class Fish
+    attr_reader :fin_number
+    
+    def initialize(fin_number)
+      @fin_number = fin_number
+    end
+  end
+  
+  class Salmon < Fish
+  end
+  
+  ralph = Salmon.new(4)
+  puts ralph.fin_number
+  ``````
+  sub-class, module, and superclass
+  ``````
+  module Flying
+    def flying
+      puts "#{self.name} is flying."
+    end
+  end
+  
+  class Mammal
+    attr_reader :name
+    
+    def initialize(n)
+      @name = n
+    end
+  end
+  
+  class FlyingSquirrel < Mammal
+    include Flying
+  end
+  
+  class Dog < Mammal
+  end
+  
+  me = FlyingSquirrel.new('Jordan')
+  me.flying
+  ``````
+  sub-classes and superclasses, method lookup path
+  ``````
+  class Organism
+    attr_reader :desire_to_live
+  
+    def desire_to_live
+      @desire_to_live = true
+    end
+  end
+  
+  class Mammal < Organism
+    def breathe
+      puts "I breathe with lungs."
+    end
+  end
+  
+  class Cat < Mammal
+    def initialize(name, breed)
+      @name = name
+      @breed = breed
+    end
+  end
+  
+  rufus = Cat.new('Rufus', 'Shorthair')
+  rufus.breathe
+  puts rufus.desire_to_live
+  p Cat.ancestors
+  ``````
+  sub-class, superclass, method overriding + `super`
+  ``````
+  class Vehicle
+    attr_reader :brand, :year
+    
+    def initialize(brand, year)
+      @brand = brand
+      @year = year
+    end 
+  end
+  
+  class SUV < Vehicle
+    attr_reader :seats
+    
+    def initialize(brand, year, seats)
+      super(brand, year)
+      @seats = seats
+    end
+  end
+  
+  big = SUV.new('Cobalt', 2009, 18)
+  p big
+  ``````
+  ##### Encapsulation
+  `protected` keyword 
+  ``````
+  class Person
+    def initialize(name)
+      @name = name
+    end
+    
+    def hello_from_other_obj(other)
+      puts "#{other.name} sings: 'Hello from the other object!' to #{name}."
+    end
+    
+    protected
+    
+    attr_reader :name
+  end
+  
+  person1 = Person.new('Dave')
+  person2 = Person.new('Adele')
+  person1.hello_from_other_obj(person2)
+  ``````
+  `private` keyword in use
+  ``````
+  class Donkey
+    def initialize(n)
+      @name = n
+    end
+    
+    def display_name
+      puts name
+    end
+    
+    def change_name(new_n)
+      self.name = new_n
+    end
+    
+    private
+    
+    attr_accessor :name
+  end
+  
+  ted = Donkey.new('Ted')
+  #ted.name => Private method error
+  ted.display_name
+  ted.change_name('Dood')
+  ted.display_name
+  ``````
+  state hidden by default
+  ``````
+  class Duck
+    def initialize(name)
+      @name = name
+    end
+    
+    def what_name
+      puts "My name is #{name}."
+    end
+  end
+  
+  donald = Duck.new('Donald')
+  puts donald.name
+  => NoMethodError
+  ``````
+  comparing two instances with protected
+  ``````
+  class Animal
+    def initialize(weight)
+      @weight = weight
+    end
+    
+    def less_than?(other)
+      weight < other.weight
+    end
+    
+    protected
+    
+    attr_reader :weight
+  end
+  
+  me = Animal.new(3)
+  you = Animal.new(4)
+  puts me.less_than?(you)
+  ``````
+  ##### Polymorphism
+  Ducktyping - if an object behaves like an object of another class it doesn't matter. Ruby is concerned with the behaviors available to the class, not the class name.
+  ``````
+  class Duck
+    def quack
+      puts "Quack!"
+    end
+  end
+  
+  class Person
+    def quack
+      puts "I imitate a duck QUACK!"
+    end
+  end
+  
+  def in_the_pond(duck)
+    duck.quack
+  end
+  
+  me = Person.new
+  doug = Duck.new
+  in_the_pond(me)
+  ``````
+  Polymorphism in general -- three different objects react in three different ways to the same message
+  ``````
+  class Monkey
+    def speak
+      puts "OOH"
+    end
+  end
+  
+  class Fish
+    def speak
+      puts "bubble"
+    end
+  end
+  
+  class Dog
+    def speak
+      puts "WOOF"
+    end
+  end
+  
+  def everyone_speak(arr)
+    arr.each { |animal| animal.speak }
+  end
+  
+  animals = [Monkey.new, Fish.new, Dog.new]
+  
+  everyone_speak(animals)
+  ``````
+  Polymorphism in general 2 -- different objects respond in different ways to the same method invocation
+  ``````
+  class Animal
+      def makeNoise
+          puts "HurrDurr"
+      end
+  end
+  
+  class Cat < Animal
+      def makeNoise
+          puts "Meeaaowwww"
+      end
+  end
+  
+  class Dog < Animal
+      def makeNoise
+          puts "WoofWoof"
+      end
+  end
+  
+  animal = Animal.new
+  animal.makeNoise()
+  
+  animal = Cat.new
+  animal.makeNoise()
+  
+  animal = Dog.new
+  animal.makeNoise()
+  ``````
+  Polymorphism with a module to override method
+  ``````
+  module SwimMod
+    def swim
+      puts "#{self.name} swims with their whole body."
+    end
+  end
+  
+  class Person
+    attr_reader :name 
+    
+    def initialize(n)
+      @name = n
+    end
+    
+    def swim
+      puts "#{@name} swims with their hands."
+    end
+  end
+  
+  class ProSwimmer < Person
+    include SwimMod
+  end
+  
+  me = Person.new('Jordan')
+  pro = ProSwimmer.new('Phelps')
+  me.swim
+  pro.swim
+  ``````
+  ##### Modules
+  Modules example 1 -- used for including behaviors peculiar to one sub-class of a class
+  ``````
+  module Carnivore
+    def eat(prey)
+      puts "#{self.species} eats #{prey} with their #{self.tool}."
+    end
+  end
+  
+  module Herbivore
+    def eat(plant)
+      puts "#{self.species} eats #{plant} with their #{self.tool}."
+    end
+  end
+  
+  class Animal 
+    attr_reader :species, :tool
+    
+    def initialize(species, tool)
+      @species = species
+      @tool = tool
+    end
+  end
+  
+  class Cat < Animal
+    include Carnivore
+  end
+  
+  class Deer < Animal
+    include Herbivore
+  end
+  
+  bobcat = Cat.new('Lynx rufus', 'claws')
+  white_tail = Deer.new('White-tailed Deer', 'grinding teeth')
+  bobcat.eat('bird')
+  white_tail.eat('grass')
+  ``````
+  Module 2 - behaviors peculiar to a class
+  ``````
+  module Swimmable
+    def swimming
+      puts "#{self.name} is swimming."
+    end
+  end
+  
+  class Mammal
+    attr_reader :name
+  
+    def initialize(name)
+      @name = name
+    end
+  end
+  
+  class Cat < Mammal; end
+  
+  class Dog < Mammal
+    include Swimmable
+  end
+  
+  rufus = Cat.new('Rufus')
+  ted = Dog.new('Ted')
+  ted.swimming
+  ``````
+  Module 3 - override parent class behavior, look at method lookup path
+  ``````
+  module FastRunner
+    def run
+      puts "#{self.name} runs at 10.5 MPH."
+    end
+  end
+  
+  class Person
+    attr_reader :name
+    
+    def initialize(n)
+      @name = n
+    end
+    
+    def run
+      puts "#{name} runs at 5 MPH."
+    end
+  end
+  
+  class ProRunner < Person
+    include FastRunner
+  end
+  
+  sam = Person.new('Sam')
+  eliud = ProRunner.new('Eliud Kipchoge')
+  sam.run
+  eliud.run
+  ``````
+  Module 4 -- multiple inheritance from several modules
+  ``````
+  module Fly
+    def fly
+      puts "#{self.name} used fly!"
+    end
+  end
+  
+  module Strength
+    def strength
+      puts "#{self.name} used strength!"
+    end
+  end
+  
+  module Cut
+    def cut
+      puts "#{self.name} used cut!"
+    end
+  end
+  
+  class Pokemon
+    attr_reader :name
+    
+    def initialize(name)
+      @name = name
+    end
+  end
+  
+  class LizardPokemon < Pokemon
+    include Fly
+    include Strength
+    include Cut
+  end
+  
+  char = LizardPokemon.new('Charizard')
+  char.fly
+  char.strength
+  char.cut
+  ``````
+  ##### Method Lookup Path
+  Simple superclass and subclass example
+  ``````
+  class Animal
+    def initialize(weight)
+      @weight = weight
+    end
+  end
+  
+  class Dog < Animal; end
+  
+  p Dog.ancestors
+  p Animal.ancestors
+  ``````
+  Simple superclass, module, and subclass example
+  ``````
+  module CanSwim
+    def swim
+      'swims'
+    end
+  end
+  
+  class Animal
+    def initialize(weight)
+      @weight = weight
+    end
+  end
+  
+  class Dog < Animal
+    include CanSwim
+  end
+  
+  p Dog.ancestors
+  p Animal.ancestors
+  ``````
+  Importance of method overriding in method lookup path
+  ``````
+  class Singer
+    attr_reader :name
+    
+    def initialize(name)
+      @name = name
+    end
+  end
+  
+  class Tenor < Singer
+    attr_reader :range
+    
+    def initialize(name)
+      super(name)
+      @range = 'C3-C5'
+    end
+  end
+  
+  me = Tenor.new('Jordan')
+  someone_else = Singer.new('Random')
+  p me
+  p someone_else
+  ``````
+  ##### self
+  calling method with self 1
+  ``````
+  class Man
+    attr_reader :name
+    
+    def initialize(sport)
+      @sport = sport
+    end
+    
+    def display_fav_sport
+      puts self.name
+    end
+  end
+  
+  me = Man.new('Wrestling')
+  me.display_fav_sport
+  ``````
+  calling method with self 2
+  ``````
+  class Person
+    def initialize(height, weight)
+      @height = height
+      @weight = weight
+    end
+    
+    def change_info(new_h, new_w)
+      self.height = new_h
+      self.weight = new_w
+    end
+    
+    private
+    
+    attr_accessor :height, :weight
+  end
+  
+  me = Person.new('10 feet', '54 pounds')
+  p me
+  me.change_info('13 feet', '55 pounds')
+  p me
+  ``````
+  self is used for class definitions and self inside an instance method equals the instance itself
+  ``````
+  class Dog
+    def self.what_class
+      puts "#{self} is the calling object."
+    end
+    
+    def what_object
+      puts "#{self} is the calling object."
+    end
+  end
+  
+  Dog.what_class
+  me = Dog.new
+  me.what_object
+  ``````
+  ##### Fake Operators
+  Less than operator replaced, overriden!
+  ``````
+  class Person
+    attr_reader :name, :bench
+    
+    def initialize(name, bench)
+      @name = name
+      @bench = bench
+    end
+    
+    def >(person)
+      puts "#{name} can bench more than #{person.name}." if bench > person.bench
+    end
+  end
+  
+  joe = Person.new('Joe', 425)
+  bruce = Person.new('Bruce', 325)
+  joe > bruce
+  ``````
+  `==` overrriden!
+  ``````
+  class Person
+    attr_reader :name, :bench
+    
+    def initialize(name, bench)
+      @name = name
+      @bench = bench
+    end
+    
+    def ==(person)
+      if bench == person.bench
+        puts "#{name} can bench the same as #{person.name}."
+      else
+        puts "#{name} can't bench the same as #{person.name}."
+      end
+    end
+  end
+  
+  joe = Person.new('Joe', 425)
+  bruce = Person.new('Bruce', 425)
+  tank = Person.new('Tank', 6000)
+  joe == bruce
+  joe == tank
+  ``````
+  ##### Collaborator Objects
+  using custom defined objects, showing the has-a relationship between object and the objects stored as state in other other object
+  ``````
+  class Person
+    attr_reader :name
+    attr_accessor :pets
+    
+    def initialize(name)
+      @name = name
+      @pets = []
+    end
+    
+    def adopt_pet(pet)
+      pets << pet
+    end
+  end
+  
+  class Mammal
+    def initialize(name)
+      @name = name
+    end
+  end
+  
+  class Dog < Mammal
+  end
+  
+  class Cat < Mammal 
+  end
+  
+  me = Person.new('Jordan')
+  miley = Cat.new('Miley')
+  scout = Dog.new('Scout')
+  me.adopt_pet(miley)
+  me.adopt_pet(scout)
+  p me.pets
+  ``````
+  example with custom defined objects and standard objects
+  ``````
+  class Person
+    attr_reader :name, :shoes, :foot_size
+    
+    def initialize(name, foot_size)
+      @name = name
+      @foot_size = foot_size
+      @shoes = []
+    end
+    
+    def buy_shoes(brand)
+      @shoes << Shoes.new(brand, foot_size)
+    end
+  end
+  
+  class Shoes
+    attr_reader :size, :brand
+    
+    def initialize(brand, size)
+      @brand = brand
+      @size = size
+    end
+  end
+  
+  me = Person.new('Jordan', 9.5)
+  me.buy_shoes('Adidas')
+  p me
+  ``````
+  
+  
+'''
+linesHighlighted: [
+  417
+]
+isStarred: false
+isTrashed: false

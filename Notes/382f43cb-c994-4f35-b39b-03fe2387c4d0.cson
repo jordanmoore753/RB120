@@ -1,0 +1,36 @@
+createdAt: "2019-05-15T12:07:01.165Z"
+updatedAt: "2019-05-15T13:28:44.688Z"
+type: "MARKDOWN_NOTE"
+folder: "18d218dbb9db582ec753"
+title: "Notes from Study Session 5/15"
+tags: []
+content: '''
+  #### Notes from Study Session 5/15
+  
+  Written is just about the same, interview is different from the last one.
+  
+  Written you must master the concepts. Not tricky, manage your time well. 
+  
+  In both the interview and written, you will be asked a broad question about a concept, like "What is encapsulation?" Then, you explain and give code examples.
+  
+  Interview is not about problem solving, it is about teaching the concepts of OOP. You will be asked broad concepts and be asked to teach the OOP concepts. Practice articulating out loud. He will either ask you to explain a concept or will post a code sample that illustrates a certain concept and you will explain it.
+  
+  Have code examples ready for EACH concept. EXTREMELY SIMPLE examples. Imagine you are teaching someone who just knows a little less than you (a 4th grader). Start with the lowest amount of knowledge possible and build up from there. You're explaining it to someone from RB101, essentially.
+  
+  The last question in the written assessment will take half an hour at least, so leave that time for it.
+  
+  State = all of the attributes of an object.
+  Attribute = one attribute of an object.
+  
+  Know the method lookup chain!
+  
+  Polymorphism is: 
+  
+  Most basic rule for determing what self refers to:
+  
+  if its inside an instance method, it referes to instance.
+  outside an instance method, it refers to class.
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false

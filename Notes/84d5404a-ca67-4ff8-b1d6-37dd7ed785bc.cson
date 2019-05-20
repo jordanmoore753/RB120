@@ -1,0 +1,304 @@
+createdAt: "2019-05-15T20:24:40.434Z"
+updatedAt: "2019-05-16T16:25:20.190Z"
+type: "MARKDOWN_NOTE"
+folder: "18d218dbb9db582ec753"
+title: "RB129"
+tags: []
+content: '''
+  #### RB129
+  ##### Oh, great; Everything is an Object.
+  After completing **RB120** with Launch School, I finally feel confident saying the following:
+  
+  I understand the **hype** surrounding Object-Oriented Programming (OOP).
+  
+  Does anyone else remember reading the following line, seemingly placed in every paragraph of the Introductory books and course:
+  
+  > "Everything in ruby is an object!"
+  > 
+  I don't know if anyone else is like me, but I couldn't understand the exclamation point; really? Is it that exciting? Great-- this array is an object, can we move on?
+  
+  No-- The fact that it is an object is fascinating, and the exclamation point is warranted!
+  
+  ##### Why the love for OOP?
+  It's safe to assume that most of us budding programmers would eventually like to work on large, complex apps or websites. If you don't want to do that then you may be in the wrong program. 
+  
+  As an app grows in size and complexity, it's increasingly important that it is able to managed efficiently. We want to avoid any ripple effects, wherein several errors occur throughout the whole program due to one original error. Without a framework for organizing and introducing new complexity, anything we design is doomed to that type of failure. 
+  
+  Thankfully, we have OOP.
+  
+  OOP is a programming paradigm used to manage the complexity of large programs. Essentially, OOP in *Ruby* does this by creating containers for holding and hiding data, in addition to being extremely specific about the behaviors of a certain portion of the program. We can implement OOP through the use of **classes, objects, and modules**.
+  
+  ##### Classes
+  Classes are what defines the attributes and behaviors of objects. Essentially, classes are outlines of what certain objects are made of (**attributes**) and are able to do (**behaviors**). Think of classes as the mold, and objects as the art produced from the mold. Classes are just one type of container for holding data. 
+  ``````
+  class GoodDog
+  
+  end
+  ``````
+  The example above is the simplest example of a class. This example contains no attributes or behaviors. We simply define the class on line 1, naming it `GoodDog`, and then use the reserved word `end` to specify where the class ends.
+  
+  Without classes to create objects, it would be extremely difficult if not impossible to organize large programs. 
+  
+  For those of you who've completed **RB120**, think of the projects made in **RB101**, and now think of how much better organized and logical they appear now that they've been re-written with classes, objects, and modules. Additionally, the programs we wrote with an OOP-mindset are easier to re-factor than the programs in RB101. 
+  
+  As complexity is introduced into one's program, it's imperative that there is a framework by which to manage that complexity. Classes **are** a major part of the framework.
+  ##### Objects
+  Objects are created from classes in a process known as **instantiation**. Every time we create an object from a class, we are creating an **instance** of the class. Objects are also containers for data. 
+  
+  Let's illustrate this with an example:
+  ``````
+  class GoodDog
+    def initialize(name)
+      @name = name
+    end
+    
+    def sit
+      puts "#{@name} sits."
+    end
+  end
+  
+  dog1 = GoodDog.new('Scout')
+  dog1.sit
+  ``````
+  Before I explain this, try to predict what the output will be. Also, what is the object in this example? What is the class? 
+  
+  The output will be: 
+  `=> Scout sits.`
+  
+  Just in one example, we've introduced a few new layers of complexity. OOP gets complicated fast! 
+  
+  We're going to break down the code snippet under the following sub-headings:
+  1. General Explanation
+  2. Initialize
+  3. Instance Variable
+  4. Instance Method
+  5. Uniqueness
+  
+  ###### General Explanation
+  First, to paint this code snippet in broad strokes, the object is `dog1`, the class is `GoodDog`, and `dog1` is able to `sit`. So far, we've identified one attribute of the object `dog1`, which is its name, `Scout`, and one behavior of `dog1`, which is `sit`.
+  
+  ###### Initialize
+  
+  On line 11, we instantiated the object `dog1` from the class `GoodDog`. That is, on line 11 we created an instance of the class `GoodDog` and named it `dog1`. The code for instantiation looks like this:
+  ``````
+  dog1 = GoodDog.new('Scout')
+  ``````
+  **Quick Aside:** Not all instantiations will take a parameter.
+  
+  When the new object is instantiated, the **only** method invoked on it is the `initialize(name)` method. This can change, however, depending on whether or not there are other method invocations within the `initialize` method. The `initialize` method tells the class which attributes to give the object upon instantiation. 
+  
+  ###### Instance Variable
+  In this example, upon instantiation we assigned the **instance variable** `@name` to point at the value of the parameter, `name`. We know this is an instance variable due to the `@` symbol at the start of its name. 
+  
+  An **instance variable** is unique to the object. That's why it's called an **INSTANCE** variable, since it is unique to that instance of the class. This is easier to see by invoking `p` on the object:
+  ``````
+  class GoodDog
+    def initialize(name)
+      @name = name
+    end
+    
+    def sit
+      puts "#{@name} sits."
+    end
+  end
+  
+  dog1 = GoodDog.new('Scout')
+  dog2 = GoodDog.new('Emma')
+  p dog1
+  p dog2
+  
+  => #<GoodDog:0x0000000003196768 @name="Scout">
+  => #<GoodDog:0x00000000032068d8 @name="Emma">
+  ``````
+  Do you see the unique instance variables in each object? `@name` is pointing at a different string object in each object.
+  
+  ###### Instance Method
+  We have one **instance method** in this code example. The instance method is `sit`.
+  
+  **SideNote:** `initialize` is a constructor method because it is used to initialize (create, construct) a new object of a class.
+  
+  Instance methods are called `instance methods` because only an **object** or **instance** of the class can invoke the method. The class itself **CANNOT** invoke an instance method. Check out the following example:
+  ``````
+  class GoodDog
+    def initialize(name)
+      @name = name
+    end
+    
+    def sit
+      puts "#{@name} sits."
+    end
+  end
+  
+  dog1 = GoodDog.new('Scout')
+  dog2 = GoodDog.new('Emma')
+  GoodDog.sit
+  ``````
+  What was your output when you ran this code? 
+  
+  You should've gotten a `NoMethodError` when the code attempted to run the line `GoodDog.sit`. There is no method `sit` defined for the class `GoodDog`; rather, the instance method `sit` is defined for **instances**, AKA objects, of the class to invoke. 
+  
+  The correct use of an instance method looks like:
+  ``````
+  class GoodDog
+    def initialize(name)
+      @name = name
+    end
+    
+    def sit
+      puts "#{@name} sits."
+    end
+  end
+  
+  dog1 = GoodDog.new('Scout')
+  dog2 = GoodDog.new('Emma')
+  dog1.sit
+  ``````
+  See the difference? We invoke the instance method by calling it on the object itself, not the class.
+  
+  ###### Uniqueness
+  
+  In this example, the instance, AKA object, is unique in it's `object_id` and it's `@name` instance variable. You can even run the following code in your code editor:
+  ``````
+  class GoodDog
+    def initialize(name)
+      @name = name
+    end
+    
+    def sit
+      puts "#{@name} sits."
+    end
+  end
+  
+  dog1 = GoodDog.new('Scout')
+  dog2 = GoodDog.new('Emma')
+  puts dog1.object_id
+  puts dog2.object_id
+  ``````
+  The outputs are going to be different numbers. That's due to the fact that `dog1` and `dog2` are different objects.
+  
+  ###### Before Moving On
+  Before we get into how we organize and use classes and objects, there's one more data container we need to go over.
+  
+  ##### Modules
+  Modules are also containers for data but they differ from classes in a few ways. Let's look at them briefly before talking about OOP concepts.
+  
+  ###### Only Behaviors
+  Modules are a collection of behaviors. These behaviors can be used by objects or classes by `mixins`, which means to mix the module into the class. This only requires the use of the `include` keyword. Here's an example:
+  ``````
+  module Guard
+    def defend(attack)
+      puts "Defend with #{attack}!"
+    end
+  end
+  
+  class GoodDog
+    include Guard
+  
+    def initialize(name)
+      @name = name
+    end
+    
+    def sit
+      puts "#{@name} sits."
+    end
+  end
+  
+  dog1 = GoodDog.new('Scout')
+  
+  dog1.defend('bite')
+  => Defend with bite!
+  ``````
+  On lines 181-185 we defined the module `Guard`. In this module, we defined the method `defend` which takes a paramter `attack`. 
+  
+  On it's own this module cannot be used by a class. The module is only usable by a class when the class `include` the module, as we specified on line 188. If we ran this code without using `include`, we would get a `NoMethodError` since the object cannot find any method by the name of `defend`.
+  
+  At this point, this is the extent to which you need to understand modules. They are another container for data and can be used by classes and objects.
+  
+  #### Okay, I have the OOP-tools; now, how do I use them?
+  OOP uses three main concepts to guide the use of our tools, classes, objects, and modules. These concepts are:
+  1. Encapsulation
+  2. Polymorphism
+  3. Inheritance
+  
+  ##### Encapsulation
+  One of the funniest concepts for me to comprehend when learning about OOP was encapsulation. During my first few projects, I can recall how frustrated I was at trying to access certain data and being unable to. I drooled at the thought of every local variable having a constant variable scope, as I would be able to access them everywhere. 
+  
+  Now, I completely understand why local variables are so hard to access.
+  
+  **Encapsulation** is the act of hiding pieces of functionality, data, and making them unavailable to the rest of the program. This is a crucial concept in creating and maintaining a program that is immune to error accumulation.
+  
+  Let's do a quick example without any code. Most of us have a bank account. Would you rather have strict or lax security surrounding your login process?
+  
+  Most of us would prefer strict security over lax security, as this prevents a lot of errors from easily occurring. Some of the more devastating errors could be identity theft or monetary theft. 
+  
+  Encapsulation runs with the same assumption, as the data contained within classes, objects, and modules is impossible to access from outside of themselves by default, much like the security of one's bank account.
+  
+  **Sidenote:** If you want extremely tight security on your bank account with no benefit, go with *KeyBank*. Their security is so difficult to get through that it's easy to get locked out of your account even with the information right at hand. In fact, I was even locked out of my account with them after calling one of their representatives about some payments on my account. After our conversation, we both said 'Goodbye', and I hung up. Big mistake! Apparently, they're the ones who hang up the call. As a result, I got locked out of my account for two weeks and had to drive to a KeyBank in person to get it unlocked. In all seriousness, don't use *KeyBank*. They require monthly maintenance fees for most accounts, offer terrible interest on your account, and have extremely rude customer service in-person (from my limited experience). 
+  
+  Here's an example:
+  ``````
+  class BankAccount
+    def initialize(name, password)
+      @name = name
+      @password = password
+    end
+  end
+  
+  my_account = BankAccount.new('Pat', '123445')
+  puts my_account
+  puts @password
+  => #<BankAccount:0x00000000032f6ea0>
+  => nil
+  ``````
+  After running this code, you probably noticed that we cannot see the contents of the `my_account` object by simply invoking `puts` on an instance variable or instance name. This is done on purpose to prevent data from being accessed or manipulated unnecessarily. 
+  
+  Let's try changing the `@password` variable from outside the object:
+  ``````
+  class BankAccount
+    def initialize(name, password)
+      @name = name
+      @password = password
+    end
+  end
+  
+  my_account = BankAccount.new('Pat', '123445')
+  @password = 'icarus'
+  puts @password
+  => icarus
+  ``````
+  Wait, didn't I just say that encapsulation was done by **default** to prevent data manipulation or change? Yes, I did. Let's check if the `@password` that we just assigned is the same as instance variable as in our `my_account` object.
+  ``````
+  class BankAccount
+    def initialize(name, password)
+      @name = name
+      @password = password
+    end
+  end
+  
+  my_account = BankAccount.new('Pat', '123445')
+  @password = 'icarus'
+  puts @password
+  p my_account
+  => icarus
+  => #<BankAccount:0x000000000331eec8 @name="Pat", @password="123445">
+  ``````
+  Nope! The two instance variables with the name `@password` are completely different. One of them is an attribute of an object and other one isn't attached to a certain object. 
+  
+  What if we wanted to allow someone to read the `@name` from outside the object? Is there a way that we can give **permissions** to certain attributes or behaviors?
+  
+  Yes!
+  
+  ###### Getter Methods
+  **Getter** method is a method that allows one to expose the state 
+  
+  
+  
+  
+  
+  
+  
+  
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false

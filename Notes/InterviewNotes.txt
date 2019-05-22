@@ -1,0 +1,153 @@
+1. What is OO Design?
+
+Well, OO Design is a set of tools and concepts used to plan one's code in an intuitive and logical manner.
+
+For instance, one tool used to model the relationships between different ideas that will be executed
+in the program, one can use CRC cards.  CRC stands for Class-Responsibility-Collaborator. These cards are used
+to identify the types of relationships between different ideas. One example would be a Library class, which has
+the ability to loan books. That would be a responsibility. The collaborators would be patrons and books, since those
+are objects that the library contains.
+
+There are three main concepts when it comes to OO Design: Inheritance, Encapsulation, and Polymorphism.
+
+Inheritance allows us to model the most logical and intuitive way to organize classes, objects, and modules.
+If something has an 'is-a' relationship, we know to use class inheritance, where a superclass allows its behaviors
+to be used by a sub-class. An example of this would be the superclass Mammal and the sub-class FlyingSquirrel. Additionally,
+modules and collaborator objects model a 'has-a' relationship, wherein the class either has the ability to do something
+or contains (has) objects stored as state. FlyingSquirrel needs a flying module, since it is one of few mammals who
+can fly. Additionally, FlyingSquirrel may need organs as collaborator objects.
+
+Encapsulation allows us to hide pieces of functionality and control their exposure and manipulation within the program.
+This is essential to creating a secure, user-driven program. Without encapsulation as a driver for design, programs are less
+organized, more prone to errors, and less read-able. (TTT example: RB101 vs RB109). 
+
+Polymorphism is the ability of different objects to respond in different ways to the same message. This allows for greater
+use of the DRY principle and also cuts down on complexity, as one method can take in different objects to perform different
+operations, all while being invoked by one method. Here's an example:
+
+------
+class Square
+  attr_reader :num1, :num2
+
+  def initialize(num, num2)
+    @num1 = num 
+    @num2 = num2
+  end
+
+  def get_area
+    num1 * num2
+  end
+end
+
+class Triangle
+  attr_reader :num1, :num2
+
+  def initialize(num, num2)
+    @num1 = num 
+    @num2 = num2
+  end
+
+  def get_area
+    (num1 * num2) / 2
+  end
+end
+
+def area_calc(obj)
+  puts obj.get_area
+end
+
+sq = Square.new(5, 5)
+tr = Triangle.new(3, 8)
+area_calc(sq)
+area_calc(tr)
+---
+
+2. What is the limitation of single inheritance?
+
+The limitation of single inheritance is when a class has multiple 'is-a' relationships. A class can only be a sub-class of one
+superclass, so sometimes modules are necessary to mitigate this shortcoming.
+
+Here's one example. A watch is a clock but is also an accessory. These two qualify as different classes; however, the class
+Watch can only be a sub-class of one of them, since clocks and accessories are completely different and cannot be
+in the same class or inheritance hierarchy. So, it's imperative that we designate the primary 'is' relationship, Clock, make
+Watch a subclass of it, and then include Accessory as a module within Watch. This is because Watch is mainly a clock, but is
+also an accessory. In this way, it **has** the ability to be an accessory, but is mostly a Clock.
+
+---
+module Accessory
+
+end
+
+class Clock; end
+
+class Watch < Clock
+  include Accessory
+end
+---
+
+3. What is the whole point of OOP? Pros and Cons?
+
+The whole point of OOP is to manage the growing complexity and size of programs. LS mirrored this issue
+nicely, as demonstrated by the jump in complexity from RB101-109. In order to make the TTT Game and 21 Game
+more manageable, it was necessary to use classes, objects, and modules. As programs grow in size, they are more prone to
+potential errors, and these errors, due to the large size of the program, may compound and be harder
+to debug. 
+
+One pro of OOP is that the code is generally more readable. I look back on the TTT game and I can't believe that I
+was able to read any of it. I can't stand to look at it. It hurts my eyes! It's so disorganized, and some of the local variables can
+be accessed in places that they shouldn't be able to. It's an encapsulation nightmare. 
+
+Another pro of OOP is that it is easier to debug and also safer for the data. Due to the organization of classes and modules in
+hierarhical, is vs has relationships, it's easy to see where and why things fit the way they do in a given framework. The containers of
+data, namely the classes and modules, it's much better organized and so is easier to section off and isolate a part of the code
+that is raising exceptions. Additionally, encapsulation prevents the unnecessary exposure and/or manipulation of data, which
+is safer for the user and program at large.
+
+One con of OOP is that it requires more time to plan and create the program than it does procedurally. Especially for some 
+of the small problem exercises in RB120, it's not necessary to create a framework for class inheritance; however, I prefer the use of 
+OOP for programming anything, now. Procedural programming just seems sloppy to me now.
+
+One last pro for OOP is that it allows us programmers to model the relationships between the ideas in our potential program in accordance
+with how they are reflected in real life. This makes the program far more logical and easy to process, thus, making the program easier to
+create, debug, and update. I always like to think: failing to plan is planning to fail, and the same goes for OO Design. If the hierarchical
+relationships have not been established from the get-go, the program is going to be infinitely harder to create than if it were set initially.
+
+---
+
+4. Why is Class Inheritance useful? Also, what is it?
+
+Class inheritance is when classes inherit the behaviors of another class. Specifically, this happens when a class is designated as
+a superclass and another class is the sub-class. The sub-class inherits the behaviors of the superclass. This is useful for a few different reasons. 
+
+One reason is that class inheritance allows us to model real-life relationships. For example, if I have a Computer class, then a sub-class of Computer would
+be Laptop, as all Laptops are Computers; however, not all Computers are laptops. So, we write this with the code: 'Class Laptop < Computer', and this allows
+Laptop to inherit the behaviors of the Computer class. We desire this relationship because a Laptop **is** a computer, so we model this relationship with
+class inheritance.
+
+Another reason that class inheritance is useful is that it allows us to give specific behaviors to specific classes. For example, only objects of the FlyingSquirrel class are Mammals that can fly. So, we need to know that FlyingSquirrel will inherit Mammalian behaviors from FlyingSquirrel, but also
+has some additional behaviors exclusive to FlyingMammals. Integral to understanding how and why we can give specific behaviors to specific classes is understanding how inheritance affects the method lookup path. If one doesn't understand the method lookup path, which is the order by which Ruby will search for the method that was invoked, then the programmer is missing an extremely valuable tool to work with. Additionally, not understanding method overriding will most likely lead to misunderstandings and unexpected errors and/or outputs.
+
+--
+
+5. Using Getter and Setter vs. Referencing Variable?
+
+Well, using a getter or setter, (accessor methods), especially a custom getter or setter, allows for more specific access and/or re-assignment of data. The specificity given to the programmer by custom accessor methods is a great advantage to using a getter and/or setter versus simply referencing an instance variable.
+
+Another advantage of using a getter or setter is that it saves time and space in the code and adheres to the DRY principle better than the alternative, which is referncing the variable directly in the code. Also, I believe that a getter and/or setter is far more readable than an instance variable reference.
+
+Additionally, it is easier to debug a single getter or setter method than it is to modify multiple instance variable references. For example, instead of having to replace 5000 references to an instance variable because the initial reference wasn't adequate, you could instead just modify the getter or setter that was used to reference that instance variable. This makes debugging far easier!
+
+One final reason is that using a getter and or setter method can be used for encapsulation by hiding portions of data that is exposed or manipulated. For example, if one had a SSN, instead of retrieving the whole value, one could just grab the first 3 or 4 digits. This is FAR safer than exposing all of the data. It would be harder to implement this with an instance variable reference without a method to do it for you.
+
+--
+
+6. What are Modules? Why do we use them? Give an example.
+
+Modules are collections of behaviors. They are used in a case where there is a 'has-a' relationship between two things, and one thing has the behavior of doing something. That 'something' is included in the Thing class as an additional behavior. 
+
+I like to think of modules as the verbs peculiar to a certain sub-class.
+
+For instance, Humans are the only primates who have conscious enough control of their breathing in order to have speech. So, if we had a Primate class, the
+Human class would of course inherit from Primate, but we would also need to differentiate objects of the Human class from objects of the Chimp class. So, we create a module named BreathControl and include it in the Human class. BreathControl contains the behaviors (verbs) that only the Human class has (but it can be included in other classes, too!).
+
+So, in summary, modules are collections of behaviors that do not pertain to an entire class; so, they must be included in the relevant sub-class. The difference between the 'has-a' relationship in collaborator objects and modules is that collaborator objects are nouns/pronouns and are stored as state, whereas, modules are only behaviors (verbs).

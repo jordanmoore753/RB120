@@ -151,3 +151,114 @@ For instance, Humans are the only primates who have conscious enough control of 
 Human class would of course inherit from Primate, but we would also need to differentiate objects of the Human class from objects of the Chimp class. So, we create a module named BreathControl and include it in the Human class. BreathControl contains the behaviors (verbs) that only the Human class has (but it can be included in other classes, too!).
 
 So, in summary, modules are collections of behaviors that do not pertain to an entire class; so, they must be included in the relevant sub-class. The difference between the 'has-a' relationship in collaborator objects and modules is that collaborator objects are nouns/pronouns and are stored as state, whereas, modules are only behaviors (verbs).
+
+7. What is Namespacing?
+
+module Mammal
+  class Chimp
+    def speak
+      puts "Grunt."
+    end
+  end
+
+  class Dog
+    def speak
+      puts "Bark."
+    end
+  end
+end
+
+me = Mammal::Chimp.new
+me.speak
+
+8. What is to_s?
+
+Essentially, to_s converts an object into a string representation. When we invoke the puts method and pass an object to it as its argument, we are invoking to_s on the object, which outputs its encoded object_id. So, we can method override to get something more readable and unique to the object if desired.
+
+class Dog
+  def to_s
+    "I am the object."
+  end
+end
+
+me = Dog.new
+puts me
+
+9. When to use collaborator objects?
+
+module BossBehaviors
+  def delegate
+
+  end
+
+  def vacation
+
+  end
+end
+
+#
+
+class Apple # is the company
+  def initialize
+    @employees = [Boss.new, PartTimeEmployee.new]
+  end
+
+  def add_employee
+    @employees << Boss.new
+  end
+end
+
+class Employee # is a member of the company
+
+end
+
+# 
+
+class Boss < Employee # is a type of employee
+  include BossBehaviors
+end
+
+class PartTimeEmployee < Employee # is a type of employee
+
+end
+
+10. Encapsulation?
+
+Another example:
+
+class Person
+  attr_accessor :name
+
+  def initialize(name, ssn)
+    @name = name 
+    @ssn = ssn
+  end
+
+  def display_ssn
+    ssn
+  end
+    
+  private
+
+  def ssn
+    'xxxx' + @ssn[-4..-1]
+  end
+end
+
+john = Person.new('John', '78723765')
+puts john.display_ssn
+john.name = 'Pen'
+puts john.name
+
+# 11
+
+class Person
+  def initialize(name, ssn)
+    @name = name
+    @ssn = ssn
+  end
+
+  def inspect 
+    'Information not available'
+  end
+end
